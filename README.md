@@ -2,7 +2,7 @@
 
 A tap-to-advance 8-bit wedding card for Angela & Nielsen.
 
-**Snapshots:** Title → 07:00 AM glow-up (a mini-game: tap the towel, the Vaseline, the hairdryer and the dress) → 06:30 PM matcha (tap to whisk, with the kids and Churros the bunny around) → 09:00 AM kopi run at the office → doki doki by the bay → The Big Day at the Peranakan shophouses with the whole family → a letter pops up.
+**Snapshots:** Title → 07:00 AM glow-up (a mini-game: tap the towel, the Vaseline, the hairdryer and the dress) → 06:30 PM matcha (tap to whisk, with the kids and Churros the bunny around) → 09:00 AM kopi run → a Harley ride into the sunset → The Big Day under a floral arch with the whole family → a letter pops up.
 
 Scene changes are cute wipes: Churros hopping past, a matcha whisk with a face, a flying rainbow bear, a big heart.
 

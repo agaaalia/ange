@@ -84,16 +84,16 @@ const ANGELA = {
   shirtC: '#ff9ec4', dressC: '#ff9ec4', hemC: '#ffd1e3', pantsStyle: 'dress', shortSleeve: true, shoeC: '#c8467a',
 };
 const ANGELA_WED = {
-  ...ANGELA, shirtC: '#fff6fa', sleeveC: '#fff6fa', shortSleeve: false, deco: 'kebaya',
-  pantsStyle: 'sarong', dressC: '#4a7fd0', dotC: '#ffd166', dot2C: '#ff8fb1', flower: true,
+  ...ANGELA, shirtC: '#ffffff', sleeveC: '#ffffff', shortSleeve: true, deco: 'gown', beltC: '#e6e6f2', pantsStyle: 'gown',
+  dressC: '#ffffff', hemC: '#eef0fa', sparkleC: '#cfdcff', shoeC: '#ffffff', veil: true, bouquet: true, earrings: true,
 };
 const NIELSEN = {
   seed: 1.7, bw: 8, torso: 8, legs: 8,
-  hair: 'short', hairC: '#2a2324', glasses: true, glassC: '#3a2a2a', stache: true,
+  hair: 'short', hairC: '#2a2324', glasses: true, glassC: '#3a2a2a',
   shirtC: '#9cc9f0', collarC: '#ffffff', deco: 'collar', belt: true,
   pantsStyle: 'trousers', pantsC: '#3c4a6b', shoeC: '#5a3a26',
 };
-const NIELSEN_WED = { ...NIELSEN, shirtC: '#ffffff', collarC: '#dfe9f5', bowtie: true, pantsC: '#2e3550' };
+
 const SON_A = { // Angela's older boy: tight black Nike tee + muay thai shorts
   seed: 2.9, bw: 6, torso: 6, legs: 5,
   hair: 'spiky', hairC: '#2e2220', shirtC: '#161616', deco: 'swoosh', shortSleeve: true,
@@ -118,7 +118,7 @@ const SON_N = { // Nielsen's boy
 
 const ROBE = { shirtC: '#ffd1e3', sleeveC: '#ffd1e3', shortSleeve: false, deco: 'robe', pantsStyle: 'dress', dressC: '#ffd1e3', hemC: '#ffffff', shoeC: '#ffffff' };
 const GOWN = {
-  shirtC: '#d64f7f', dressC: '#d64f7f', hemC: '#f08fb0', sparkleC: '#ffe0ef', shortSleeve: true, deco: 'gown',
+  shirtC: '#1f4fbf', dressC: '#1f4fbf', hemC: '#2f62d6', sparkleC: '#9fc0ff', beltC: '#151515', shortSleeve: true, deco: 'gown',
   pantsStyle: 'gown', shoeC: '#ffd23f', earrings: true, lips: '#c2185b',
 };
 const ANGELA_WORK = { ...ANGELA, ...GOWN };
@@ -127,6 +127,8 @@ const NIELSEN_SUIT = {
   belt: false, pantsC: '#2e3b63', shoeC: '#1a1a1a', prop: 'kopi',
 };
 const NIELSEN_SUIT_NOKOPI = { ...NIELSEN_SUIT, prop: null };
+const NIELSEN_WED = { ...NIELSEN_SUIT, prop: null, shirtC: '#1e1e2a', sleeveC: '#1e1e2a', pantsC: '#1e1e2a', lapelC: '#000000' };
+const NIELSEN_BIKER = { ...NIELSEN, shirtC: '#1c1c1c', sleeveC: '#1c1c1c', deco: 'biker', belt: true, pantsC: '#35588a', shoeC: '#111111' };
 // colleagues and family members
 const CW = [
   { seed: 1.1, bw: 8, torso: 8, legs: 7, hair: 'bob', hairC: '#3a2a20', shirtC: '#ffcf6b', pantsStyle: 'trousers', pantsC: '#4a4a5a', shoeC: '#333' },
@@ -134,12 +136,12 @@ const CW = [
   { seed: 3.7, bw: 8, torso: 8, legs: 7, hair: 'pony', hairC: '#8a4a2a', tieC: '#ffd23f', shirtC: '#c3a6ff', pantsStyle: 'trousers', pantsC: '#4a3a6a', shoeC: '#333' },
 ];
 const FAMILY = [
-  { seed: 0.5, bw: 8, torso: 8, legs: 7, hair: 'bun', hairC: '#c9c9d1', shirtC: '#7fc8a9', sleeveC: '#7fc8a9', deco: 'kebaya', pantsStyle: 'sarong', dressC: '#8a5ac8', dotC: '#ffd166', dot2C: '#ffffff', shoeC: '#a85a3a' },
-  { seed: 1.6, bw: 8, torso: 8, legs: 8, hair: 'short', hairC: '#d0d0d8', stache: true, glasses: true, glassC: '#555', shirtC: '#f2d16b', deco: 'batik', batikC: '#c0563a', pantsStyle: 'trousers', pantsC: '#4a4a5a', shoeC: '#3a2a20' },
-  { seed: 2.1, bw: 8, torso: 8, legs: 7, hair: 'bob', hairC: '#2a1d1d', shirtC: '#ff9fb0', sleeveC: '#ff9fb0', deco: 'kebaya', pantsStyle: 'sarong', dressC: '#3a9a7a', dotC: '#ffffff', dot2C: '#ffd166', shoeC: '#c8467a' },
-  { seed: 2.8, bw: 8, torso: 8, legs: 8, hair: 'short', hairC: '#222', shirtC: '#5aa0e0', deco: 'batik', batikC: '#ffd23f', pantsStyle: 'trousers', pantsC: '#2e3550', shoeC: '#222' },
-  { seed: 3.3, bw: 8, torso: 8, legs: 7, hair: 'pony', hairC: '#4a2a1a', tieC: '#ff5a8a', shirtC: '#c3a6ff', sleeveC: '#c3a6ff', deco: 'kebaya', pantsStyle: 'sarong', dressC: '#e2766a', dotC: '#ffffff', dot2C: '#ffe14d', shoeC: '#7a3fb0' },
-  { seed: 4.2, bw: 8, torso: 8, legs: 8, hair: 'spiky', hairC: '#2a2020', glasses: true, glassC: '#2a6fc0', shirtC: '#e2766a', deco: 'batik', batikC: '#fff3c0', pantsStyle: 'trousers', pantsC: '#3a3a4a', shoeC: '#222' },
+  { seed: 0.5, bw: 8, torso: 8, legs: 7, hair: 'curly', hairC: '#c8402a', hairHi: '#e8684a', shirtC: '#7fc8a9', shortSleeve: true, pantsStyle: 'dress', dressC: '#7fc8a9', hemC: '#a8e0c8', shoeC: '#a85a3a' },
+  { seed: 1.6, bw: 8, torso: 8, legs: 8, hair: 'bald', hairC: '#c8c8d0', glasses: true, glassC: '#555', shirtC: '#3b7fd6', collarC: '#ffffff', deco: 'collar', belt: true, pantsStyle: 'trousers', pantsC: '#4a4a5a', shoeC: '#3a2a20' },
+  { seed: 2.1, bw: 8, torso: 8, legs: 7, hair: 'bob', hairC: '#2a1d1d', shirtC: '#ff9fb0', shortSleeve: true, pantsStyle: 'dress', dressC: '#ff9fb0', hemC: '#ffc8d4', shoeC: '#c8467a' },
+  { seed: 2.8, bw: 8, torso: 8, legs: 8, hair: 'short', hairC: '#222', shirtC: '#f4f4f8', collarC: '#cfd8e6', deco: 'collar', belt: true, pantsStyle: 'trousers', pantsC: '#2e3550', shoeC: '#222' },
+  { seed: 3.3, bw: 8, torso: 8, legs: 7, hair: 'pony', hairC: '#4a2a1a', tieC: '#ff5a8a', shirtC: '#c3a6ff', shortSleeve: true, pantsStyle: 'dress', dressC: '#c3a6ff', hemC: '#ddd0ff', shoeC: '#7a3fb0' },
+  { seed: 4.2, bw: 8, torso: 8, legs: 8, hair: 'spiky', hairC: '#2a2020', glasses: true, glassC: '#2a6fc0', shirtC: '#e2766a', collarC: '#ffffff', deco: 'collar', belt: true, pantsStyle: 'trousers', pantsC: '#3a3a4a', shoeC: '#222' },
 ];
 
 function drawPerson(p, x, feetY, o = {}) {
@@ -159,6 +161,7 @@ function drawPerson(p, x, feetY, o = {}) {
   const hb = 10, lt = hb + torso;
   const hc = p.hairC;
 
+  if (p.veil) R(-8, -1, 16, 26, 'rgba(255,255,255,0.7)');
   // --- back hair
   if (p.hair === 'long') {
     R(-6, 2, 12, 12 + Math.min(torso, 6), hc);
@@ -229,6 +232,9 @@ function drawPerson(p, x, feetY, o = {}) {
     case 'stripes':
       for (let i = 1; i < torso; i += 2) R(-hw, hb + i, bw, 1, p.stripeC);
       break;
+    case 'biker':
+      R(-2, hb, 4, 1, '#2a2a2a'); R(0, hb + 1, 1, torso - 1, '#9a9a9a'); R(-hw, hb + 3, 2, 1, '#e2702a'); R(hw - 2, hb + 3, 2, 1, '#e2702a');
+      break;
     case 'robe':
       R(-2, hb, 1, 4, WHITE); R(1, hb, 1, 4, WHITE); R(-1, hb, 2, 2, SKIN);
       R(-hw, hb + torso - 2, bw, 1, '#ff7aa8'); R(1, hb + torso - 2, 2, 2, '#ff7aa8');
@@ -279,6 +285,7 @@ function drawPerson(p, x, feetY, o = {}) {
       R(kx, ky + 2, 3, 4, '#a8682f'); R(kx, ky + 2, 3, 1, '#ead6b8'); R(kx, ky + 5, 3, 1, '#8a5020');
     }
   }
+  if (p.bouquet) { R(hw - 2, hb + torso - 4, 4, 3, '#ff8fb8'); R(hw - 1, hb + torso - 4, 1, 1, '#ffffff'); R(hw + 1, hb + torso - 3, 1, 1, '#ffe14d'); R(hw - 1, hb + torso - 1, 2, 2, '#4caf50'); }
   if (p.prop === 'book') { R(hw - 2, hb + 3, 4, 4, '#e2564a'); R(hw - 2, hb + 3, 4, 1, '#fff2d8'); R(hw + 1, hb + 3, 1, 4, '#b8382e'); }
 
   // --- head
@@ -313,6 +320,14 @@ function drawPerson(p, x, feetY, o = {}) {
       R(-4, -1, 8, 1, hc); R(-5, 0, 10, 3, hc); R(-5, 3, 1, 3, hc); R(4, 3, 1, 3, hc);
       R(-2, -4, 5, 3, hc); R(-1, -5, 3, 1, hc); R(2, -3, 2, 1, '#ffcc33');
       break;
+    case 'curly':
+      R(-6, -2, 12, 5, hc); R(-7, 0, 2, 6, hc); R(5, 0, 2, 6, hc); R(-5, -3, 3, 1, hc); R(0, -3, 4, 1, hc);
+      R(-4, 3, 2, 1, hc); R(2, 3, 2, 1, hc);
+      for (let i = -5; i < 5; i += 3) R(i, -1, 1, 1, p.hairHi);
+      break;
+    case 'bald':
+      R(-5, 3, 1, 3, hc); R(4, 3, 1, 3, hc); R(-2, 1, 2, 1, WHITE);
+      break;
     case 'towel':
       R(-6, -3, 12, 6, p.towelC); R(-5, -5, 10, 2, p.towelC); R(-3, -7, 6, 2, p.towelC); R(1, -8, 3, 2, p.towelC2);
       R(-6, 1, 12, 1, p.towelC2); R(-4, -3, 1, 4, p.towelC2); R(2, -5, 1, 4, p.towelC2);
@@ -320,6 +335,7 @@ function drawPerson(p, x, feetY, o = {}) {
   }
   if (p.cap) { R(-5, -1, 10, 3, p.cap); R(-4, -2, 8, 1, p.cap); R(3, 1, 4, 1, '#2a6fc0'); R(-1, -2, 2, 1, WHITE); }
   if (p.headband) R(-5, 1, 10, 1, p.headband);
+  if (p.veil) { R(-6, -1, 12, 1, 'rgba(255,255,255,0.9)'); R(-7, 0, 1, 20, 'rgba(255,255,255,0.8)'); R(6, 0, 1, 20, 'rgba(255,255,255,0.8)'); R(-2, -2, 4, 1, '#dfe8ff'); R(-1, -3, 2, 1, '#ffffff'); }
   if (p.flower) { R(3, -2, 3, 3, '#ff7aa8'); R(4, -1, 1, 1, '#ffe066'); R(2, 0, 1, 1, '#ffcc33'); R(-4, -1, 1, 1, '#ffcc33'); }
 
   // --- face
@@ -414,16 +430,16 @@ const BUNNY = [
   '........EP.EP...',
   '........EE.EE...',
   '.......BBBBBB...',
-  '......BBBBBKBB..',
-  '......BBBBRBBBN.',
-  '..BBBBBBBBBBBB..',
+  '......BBBBWKBB..',
+  '......BBBBKKBBN.',
+  '..BBBBBBBBRBBB..',
   '.BBBBBBBBBBBB...',
   'TBBBBBBBBBBB....',
   'TBBBBBCCCBBB....',
   '.BBBBBBBBBB.....',
   '..FF.....FF.....',
 ];
-const BUNNY_PAL = { B: '#d9a066', E: '#d9a066', P: '#ffb3c6', K: EYE, R: '#ff9fb8', N: '#ff7aa8', T: '#fff3e0', C: '#f3c995', F: '#b97f45' };
+const BUNNY_PAL = { B: '#8a5a3a', E: '#8a5a3a', P: '#ffb3c6', K: EYE, W: '#ffffff', R: '#ff9fb8', N: '#ff7aa8', T: '#fff3e0', C: '#b5845c', F: '#5e3a22' };
 function drawBunny(x, y, t, opts = {}) {
   const s = opts.s || 2, face = opts.face || 1;
   const hop = opts.hop ? Math.round(Math.abs(Math.sin(t * (opts.hopSpeed || 7))) * (opts.hopH || 6)) : 0;
@@ -505,8 +521,25 @@ const DRESS = [
   'GGGGGGGGGGGG',
   'HHHHHHHHHHHH',
 ];
-const DRESS_PAL = { K: '#c9a27a', G: '#d64f7f', g: '#a83560', S: '#ffe0ef', H: '#f08fb0' };
+const DRESS_PAL = { K: '#c9a27a', G: '#1f4fbf', g: '#151515', S: '#9fc0ff', H: '#2f62d6' };
 const ARROW = ['.KKKKK.', '.KWWWK.', '.KWWWK.', 'KKWWWKK', 'KWWWWWK', '.KWWWK.', '..KWK..', '...K...'];
+function drawBike(x, y, spin, parked) {
+  C.save(); C.translate(Math.round(x), Math.round(y)); C.scale(2, 2);
+  const wheel = (cx) => {
+    for (let a = 0; a < Math.PI * 2; a += 0.25) R(cx + Math.cos(a) * 5, -5 + Math.sin(a) * 5, 1, 1, '#1a1a1a');
+    for (let a = 0; a < Math.PI * 2; a += 0.35) R(cx + Math.cos(a) * 4, -5 + Math.sin(a) * 4, 1, 1, '#2a2a2a');
+    for (let k = 0; k < 3; k++) { const a = spin * 18 + k * 2.1; R(cx + Math.cos(a) * 2.5, -5 + Math.sin(a) * 2.5, 1, 1, '#bbbbbb'); }
+    R(cx - 1, -6, 2, 2, '#cccccc');
+  };
+  wheel(-9); wheel(10);
+  R(-15, -7, 8, 2, '#cfcfcf'); R(-9, -9, 19, 2, '#888888');
+  R(-3, -9, 7, 4, '#555555'); R(-2, -8, 5, 2, '#bbbbbb');
+  R(0, -13, 9, 4, '#e2702a'); R(1, -13, 6, 1, '#ff9a4a');
+  R(-11, -12, 11, 2, '#2a1a10'); R(-15, -11, 5, 2, '#1a1a1a');
+  R(10, -15, 1, 10, '#bbbbbb'); R(8, -16, 4, 1, '#222222'); R(11, -12, 2, 2, '#ffe14d');
+  if (parked) R(-4, -3, 1, 3, '#777777');
+  C.restore();
+}
 function twinkle(x, y, c) { R(x, y - 1, 1, 3, c); R(x - 1, y, 3, 1, c); }
 function meter(x, y, w, v, col, label) {
   R(x, y, w, 7, '#ffffff'); R(x + 1, y + 1, w - 2, 5, '#2a2050');
@@ -718,63 +751,34 @@ function buildBackgrounds() {
     for (let y = 144; y < H; y += 5) for (let x = (y % 10 ? 0 : 8); x < W; x += 16) R(x, y, 8, 1, '#525684');
   });
 
-  BG.shophouse = layer(W, H, () => {
-    sky(['#8fd3ff', '#a9ddff', '#c6e9ff', '#e4f5ff'], 0, 60);
+  BG.wedding = layer(W, H, () => {
+    sky(['#8fd3ff', '#a9ddff', '#c6e9ff', '#e4f5ff'], 0, 112);
     const cx = 120, cy = 84;
-    for (let y = 0; y < 50; y++) for (let x = 0; x < W; x++) {
+    for (let y = 0; y < 60; y++) for (let x = 0; x < W; x++) {
       const band = Math.floor((Math.hypot(x - cx, y - cy) - 52) / 4);
       if (band >= 0 && band < 6) R(x, y, 1, 1, RAINBOW[5 - band]);
     }
-    cloud(4, 36); cloud(214, 34); cloud(160, 10);
-    const units = [['#a6e3c8', '#7cc9a6'], ['#f6b3c8', '#e48aa8'], ['#a9d4f5', '#7fb3e0'], ['#f6e2a0', '#e3c26e']];
-    const cream = '#fffaf0';
-    units.forEach(([c, cd], u) => {
-      const x0 = u * 60;
-      R(x0, 46, 60, 5, '#c4563c'); for (let i = 0; i < 60; i += 3) R(x0 + i, 46, 1, 5, '#a8452f');
-      R(x0, 51, 60, 1, '#7a2e20');
-      R(x0, 52, 60, 44, c);
-      R(x0, 52, 60, 2, cream);
-      for (let i = 0; i < 15; i++) { R(x0 + i * 4, 55, 4, 4, i % 2 ? '#ffffff' : '#4f8fe0'); R(x0 + i * 4 + 1, 56, 2, 2, i % 2 ? '#e2466f' : '#ffd23f'); }
-      R(x0, 59, 60, 1, cream);
-      [x0 + 9, x0 + 37].forEach((wx) => {
-        R(wx - 1, 63, 16, 27, cream);
-        R(wx + 1, 64, 12, 4, '#ffe7a0'); R(wx + 1, 64, 1, 1, cream); R(wx + 12, 64, 1, 1, cream); R(wx + 7, 64, 1, 4, cream);
-        R(wx, 69, 14, 20, '#3d8f6a');
-        for (let y = 70; y < 88; y += 2) R(wx + 1, y, 12, 1, '#2f7356');
-        R(wx + 7, 69, 1, 20, '#24543f');
-        R(wx - 2, 89, 18, 2, cream);
-      });
-      R(x0, 52, 3, 44, cream); R(x0 + 57, 52, 3, 44, cream);
-      R(x0, 92, 60, 3, cream); R(x0, 95, 60, 1, '#d9cbb8');
-      // five-foot way
-      R(x0, 96, 60, 42, cd); R(x0, 96, 60, 3, 'rgba(0,0,0,0.15)');
-      R(x0 + 21, 100, 18, 38, '#5a3420');
-      R(x0 + 22, 108, 7, 28, '#a8683a'); R(x0 + 31, 108, 7, 28, '#a8683a');
-      R(x0 + 24, 112, 3, 3, '#ffcf5a'); R(x0 + 33, 112, 3, 3, '#ffcf5a');
-      R(x0 + 22, 121, 16, 1, '#7a4a2a'); R(x0 + 24, 126, 3, 3, '#ffcf5a'); R(x0 + 33, 126, 3, 3, '#ffcf5a');
-      [x0 + 7, x0 + 43].forEach((sx) => {
-        R(sx, 106, 10, 14, cream); R(sx + 1, 107, 8, 12, '#2f5a4a');
-        for (let i = 0; i < 4; i++) R(sx + 2 + i * 2, 107, 1, 12, cream);
-      });
-      // pillar with peranakan tiles
-      R(x0, 96, 5, 42, cream);
-      const tc = ['#4f8fe0', '#e2466f', '#5fbf8a', '#ffd23f'];
-      for (let y = 118, i = u; y < 136; y += 4, i++) R(x0 + 1, y, 3, 3, tc[i % 4]);
-      // lanterns
-      [x0 + 14, x0 + 46].forEach((lx) => {
-        R(lx + 2, 96, 1, 3, '#3a2a20'); R(lx, 99, 5, 1, '#ffcf5a');
-        R(lx, 100, 5, 7, '#e2363a'); R(lx - 1, 101, 7, 5, '#e2363a'); R(lx + 1, 101, 1, 4, '#ff7a6a');
-        R(lx, 107, 5, 1, '#ffcf5a'); R(lx + 2, 108, 1, 3, '#ffcf5a');
-      });
-    });
-    R(235, 96, 5, 42, cream);
-    // bunting
-    const bc = ['#ff7aa8', '#ffe14d', '#8fe3a0', '#8cc8ff', '#c39bff'];
-    for (let x = 0, i = 0; x < W; x += 6, i++) { R(x, 97, 6, 1, '#ffffff'); R(x + 1, 98, 4, 1, bc[i % 5]); R(x + 2, 99, 2, 1, bc[i % 5]); }
-    // tiled floor
-    R(0, 138, W, 22, '#f3e9d8');
-    for (let y = 139, r = 0; y < H; y += 6, r++) for (let x = (r % 2) * 6; x < W; x += 12) { R(x, y, 6, 6, '#e7a07a'); R(x + 2, y + 2, 2, 2, '#5a9fd4'); }
-    R(0, 138, W, 1, '#c9b89e');
+    cloud(4, 40); cloud(212, 36); cloud(160, 12);
+    for (let i = 0; i < 9; i++) { const x = i * 28 - 6; R(x, 92, 30, 22, i % 2 ? '#7cc47a' : '#6ab868'); R(x + 4, 86, 22, 6, i % 2 ? '#7cc47a' : '#6ab868'); }
+    R(0, 112, W, 48, '#9be08a'); R(0, 112, W, 1, '#b8ec9e');
+    for (let i = 0; i < 60; i++) R((i * 37) % W, 114 + (i * 13) % 44, 1, 1, ['#ffffff', '#ffe14d', '#ff9fc0'][i % 3]);
+    // aisle runner
+    for (let y = 112; y < H; y++) { const w = 12 + (y - 112) * 0.5; R(116 - w, y, w * 2, 1, '#ffd6e4'); }
+    for (let y = 116; y < H; y += 6) { const w = 12 + (y - 112) * 0.5; R(116 - w, y, 2, 2, '#ff9fc0'); R(114 + w, y, 2, 2, '#ff9fc0'); }
+    // floral arch
+    const fl = ['#ff9fc0', '#ffffff', '#ffd1e3', '#ff7aa8'];
+    for (let a = Math.PI; a <= Math.PI * 2 + 0.001; a += 0.06) {
+      const x = 116 + Math.cos(a) * 34, y = 78 + Math.sin(a) * 26;
+      R(x - 1, y - 1, 3, 3, '#f4f4f4');
+    }
+    R(81, 78, 3, 40, '#f4f4f4'); R(148, 78, 3, 40, '#f4f4f4');
+    for (let k = 0; k < 40; k++) {
+      const a = Math.PI + (k / 39) * Math.PI, x = 116 + Math.cos(a) * 34, y = 78 + Math.sin(a) * 26;
+      R(x - 2 + (k % 3), y - 2 + (k % 2), 2, 2, fl[k % 4]); if (k % 3 === 0) R(x + 1, y + 1, 2, 1, '#5fb35a');
+    }
+    for (let y = 80; y < 118; y += 4) { R(79 + (y % 8 ? 0 : 3), y, 3, 3, fl[y % 4]); R(147 + (y % 8 ? 3 : 0), y, 3, 3, fl[(y + 1) % 4]); }
+    // fairy lights
+    for (let x = 0; x < W; x += 4) { const y = 66 + Math.round(Math.abs(Math.sin(x / 38)) * 6); R(x, y, 1, 1, '#ffffff'); if (x % 12 === 0) R(x, y + 1, 2, 2, '#fff2a0'); }
   });
 }
 
@@ -1133,10 +1137,9 @@ const scenes = [
     music: 'adventure', card: ['09:00 AM', 'THE KOPI RUN'], trans: 'bear',
     lines: [
       'Meanwhile, another busy morning at the office...',
-      { text: 'In walked NIELSEN. Suit. Tie. Tiny moustache. Very smart.', on: (st) => { st.queue.push({ x: 228, d: 3 }); } },
-      { text: '...and he bought KOPI for EVERYBODY! ☕', on: (st) => { st.queue.push({ x: 168, d: 2 }, { x: 108, d: 1 }); } },
-      { text: 'One last kopi... specially for Angela.', on: (st) => { st.queue.push({ x: 52, d: 0 }); } },
-      { text: 'Their eyes met over kopi peng... doki doki!', on: (st, t) => { st.love = t; sfx('jingle'); } },
+      { text: 'In came NIELSEN, dressed smart, with kopi for everyone!', on: (st) => { st.queue.push({ x: 228, d: 3 }, { x: 168, d: 2 }, { x: 108, d: 1 }); } },
+      { text: 'And a kopi gao for Angela.', on: (st) => { st.queue.push({ x: 52, d: 0 }); } },
+      { text: 'Doki doki!', on: (st, t) => { st.love = t; sfx('jingle'); } },
     ],
     init(st) { st.nx = 290; st.queue = []; st.pause = 0; st.kopi = 4; st.cups = [false, false, false, false]; st.excl = -9; st.love = -9; st.happy = [-9, -9, -9, -9]; },
     draw(t, dt, st) {
@@ -1149,7 +1152,7 @@ const scenes = [
         else {
           st.pause = q.d === 0 ? 0.01 : 0.6;
           st.cups[q.d] = true; st.kopi--; st.happy[q.d] = t; sfx('blip');
-          pop(q.d === 0 ? '♥ KOPI PENG ♥' : '+1 KOPI!', [30, 90, 150, 210][q.d], 96, q.d === 0 ? '#ff4f8b' : '#a8682f');
+          pop(q.d === 0 ? '♥ KOPI GAO ♥' : '+1 KOPI!', [30, 90, 150, 210][q.d], 96, q.d === 0 ? '#ff4f8b' : '#a8682f');
           if (q.d === 0) { st.excl = t; sfx('surprise'); }
         }
       }
@@ -1170,46 +1173,49 @@ const scenes = [
     },
   },
 
-  // 4 ---------------------------------------------------------------- DOKI DOKI (just the two of them)
+  // 4 ---------------------------------------------------------------- DOKI DOKI -> RIDE INTO THE SUNSET
   {
     music: 'lullaby', card: ['AND THEN...', 'DOKI DOKI'], trans: 'hearts',
     lines: [
-      'Kopi dates turned into dinner dates. Dinner dates turned into starry walks by the bay...',
+      'Kopi dates turned into weekend rides...',
       { text: 'LOVE LEVEL RISING...', on: (st) => { st.target = 0.55; } },
-      { text: 'Then the Cuddle Bears noticed. (The Cuddle Bears ALWAYS notice.)', on: (st) => { st.bears = 1; } },
-      { text: '✦ RAINBOW BEAR HUG!!! ✦', on: (st) => { st.beam = true; st.target = 1; sfx('sparkle'); } },
-      { text: "LOVE LEVEL: MAX ♥  It's official: Angela & Nielsen!", on: (st) => { st.close = true; st.fw = 0; sfx('jingle'); } },
+      { text: "LOVE LEVEL: MAX ♥  It's official: Angela & Nielsen!", on: (st) => { st.beam = true; st.target = 1; sfx('sparkle'); } },
+      { text: '...and off they rode into the sunset! ♥', on: (st, t) => { st.ride = t; sfx('jingle'); } },
     ],
-    init(st) { st.meter = 0; st.target = 0.12; st.bears = 0; st.by = 0; st.beam = false; st.close = false; st.ax = 92; st.nx = 148; },
+    init(st) { st.meter = 0; st.target = 0.12; st.beam = false; st.ride = 0; st.bx = 118; st.v = 0; },
     draw(t, dt, st) {
-      C.drawImage(BG.night, 0, 0);
-      for (let i = 0; i < 14; i++) if (Math.floor(t * 3 + i * 1.7) % 4 === 0) R((i * 71 + 13) % W, (i * 29 + 5) % 90, 1, 1, '#ffffff');
-      for (let i = 0; i < 9; i++) R(((i * 31 + t * 8) % W), 124 + (i * 5) % 13, 4 + (i % 3), 1, i % 2 ? '#ffe08a' : '#5a6ab0');
+      C.drawImage(BG.titleSky, 0, 0);
+      R(0, 146, W, 14, '#3a2550'); for (let x = (t * 60) % 16 - 16; x < W; x += 16) R(x, 152, 8, 1, '#c86a8a');
       st.meter = lerp(st.meter, st.target, Math.min(1, dt * 1.6));
-      st.by = lerp(st.by, st.bears, Math.min(1, dt * 2));
-      if (st.close) { st.ax = lerp(st.ax, 108, dt * 2.5); st.nx = lerp(st.nx, 128, dt * 2.5); }
-      else { st.ax = lerp(st.ax, 96 + st.meter * 6, dt); st.nx = lerp(st.nx, 144 - st.meter * 6, dt); }
       const max = st.meter > 0.97;
-      drawPerson(ANGELA_WORK, st.ax, 154, { t, bob: true, hop: max, phase: 0 });
-      drawPerson(NIELSEN_SUIT_NOKOPI, st.nx, 154, { t, face: -1, bob: true, hop: max, phase: 0.6 });
-      const bx = [8, 58, 156, 206];
-      if (st.beam) {
-        bx.forEach((x, i) => rainbowBeam(x + 13, -60 + st.by * 78 + 24, 118, 76, t + i * 0.2));
-        const s = 3 + Math.round((Math.sin(t * 6) + 1) * 0.5);
-        bmp(HEART7, 118 - Math.round(3.5 * s), 76 - 3 * s, Math.floor(t * 4) % 2 ? '#ff5a9a' : '#ff8fbf', s);
+      if (!st.ride) {
+        drawPerson(ANGELA_WORK, 100 + st.meter * 8, 150, { t, bob: true });
+        drawPerson(NIELSEN_BIKER, 140 - st.meter * 8, 150, { t, face: -1, bob: true });
+        drawBike(176, 150, 0, true);
+      } else {
+        const rt = t - st.ride;
+        if (rt < 0.5) st.bx = lerp(176, 118, rt / 0.5);
+        else if (rt > 1.2) { st.v += dt * 150; st.bx += st.v * dt; if (Math.random() < dt * 20) parts.push({ k: 'px', x: st.bx - 30, y: 144, vx: -30, vy: -6, g: 0, life: 0.6, age: 0, col: '#d8d0e0' }); }
+        if (st.bx < W + 60) {
+          drawPerson(ANGELA_WORK, st.bx - 10, 146, { t, flutter: rt > 1.2 });
+          drawPerson(NIELSEN_BIKER, st.bx + 4, 146, { t });
+          drawBike(st.bx, 150, rt > 1.2 ? t : 0);
+          if (rt > 1.2 && Math.random() < dt * 6) floatHeart(st.bx - 20, 110);
+        }
       }
-      bx.forEach((x, i) => {
-        const y = -60 + st.by * 78 + Math.round(Math.sin(t * 2 + i) * 2);
-        if (st.by > 0.02) drawBear(BEARS[i === 1 ? 4 : i], x, y, t, { cloud: true, wave: !st.beam });
-      });
-      if (st.meter > 0.08 && Math.random() < dt * (1 + st.meter * 5)) floatHeart(rand(100, 136), 100, pick(['#ff5a9a', '#ff8fbf', '#ffffff']));
-      if (st.close) { st.fw -= dt; if (st.fw <= 0) { st.fw = rand(0.4, 0.9); burst(rand(20, 220), rand(10, 50), pick(['#ffe14d', '#ff7aa8', '#8fe3ff', '#c39bff'])); } }
+      if (st.beam && !st.ride) {
+        const s = 3 + Math.round((Math.sin(t * 6) + 1) * 0.5);
+        bmp(HEART7, 120 - Math.round(3.5 * s), 76 - 3 * s, Math.floor(t * 4) % 2 ? '#ff5a9a' : '#ff8fbf', s);
+        if (Math.random() < dt * 12) parts.push({ k: 'heart', x: rand(96, 144), y: 104, vx: rand(-30, 30), vy: rand(-40, -20), g: 0, life: 1.6, age: 0, col: pick(['#ff5a9a', '#ff8fbf', '#ffffff']) });
+      }
+      if (st.meter > 0.08 && !st.ride && Math.random() < dt * (1 + st.meter * 4)) floatHeart(rand(104, 136), 104, pick(['#ff5a9a', '#ff8fbf']));
       drawParts();
-      const mx = 88, my = 6;
-      bmp(HEART7, mx - 10, my, max && Math.floor(t * 6) % 2 ? '#ffffff' : '#ff5a9a');
-      R(mx, my, 72, 7, '#ffffff'); R(mx + 1, my + 1, 70, 5, '#2a2050');
-      R(mx + 1, my + 1, Math.round(70 * st.meter), 5, max ? RAINBOW[Math.floor(t * 8) % 6] : '#ff5a9a');
-      R(mx + 1, my + 1, Math.round(70 * st.meter), 1, '#ffc2dc');
+      if (!st.ride) {
+        const mx = 88, my = 6;
+        bmp(HEART7, mx - 10, my, max && Math.floor(t * 6) % 2 ? '#ffffff' : '#ff5a9a');
+        R(mx, my, 72, 7, '#ffffff'); R(mx + 1, my + 1, 70, 5, '#2a2050');
+        R(mx + 1, my + 1, Math.round(70 * st.meter), 5, max ? RAINBOW[Math.floor(t * 8) % 6] : '#ff5a9a');
+      }
     },
   },
 
@@ -1225,10 +1231,10 @@ const scenes = [
     init(st) { st.env = false; },
     exit() { congrats.classList.remove('show'); theEnd.classList.remove('show'); },
     draw(t, dt, st) {
-      C.drawImage(BG.shophouse, 0, 0);
+      C.drawImage(BG.wedding, 0, 0);
       if (Math.random() < dt * 14) confetti();
-      drawBear(BEARS[1], 70, 73, t, { s: 1 });
-      drawBear(BEARS[4], 158, 73, t, { s: 1 });
+      drawBear(BEARS[1], 64, 58 + Math.round(Math.sin(t * 3) * 1), t, { s: 1 });
+      drawBear(BEARS[4], 156, 58 + Math.round(Math.sin(t * 3 + 1) * 1), t, { s: 1 });
       drawBear(BEARS[3], 6, 56 + Math.round(Math.sin(t * 2) * 2), t, { s: 1, cloud: true, wave: true });
       drawBear(BEARS[2], 222, 58 + Math.round(Math.sin(t * 2 + 1) * 2), t, { s: 1, cloud: true, wave: true });
       // extended family in the back row
