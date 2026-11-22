@@ -117,7 +117,7 @@ canvas {
   transition: transform .35s cubic-bezier(.2, 1.8, .4, 1);
 }
 .overlay.show .band { transform: scale(1); }
-.card-lvl { font-size: 2.6cqw; color: var(--gold); margin-bottom: 2cqw; }
+.card-lvl { font-size: 2.4cqw; color: #ff9a3d; text-shadow: 0 0 1cqw rgba(255, 140, 50, .7); letter-spacing: .1em; margin-bottom: 2cqw; }
 .card-name { font-size: 4.2cqw; color: #fff; text-shadow: .4cqw .4cqw 0 #c2386e; }
 
 .congrats { justify-content: flex-start; padding-top: 2.5%; }

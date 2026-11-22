@@ -116,6 +116,32 @@ const SON_N = { // Nielsen's boy
   pantsStyle: 'shorts', pantsC: '#4a5a7a', shoeC: '#e2463a',
 };
 
+const ROBE = { shirtC: '#ffd1e3', sleeveC: '#ffd1e3', shortSleeve: false, deco: 'robe', pantsStyle: 'dress', dressC: '#ffd1e3', hemC: '#ffffff', shoeC: '#ffffff' };
+const GOWN = {
+  shirtC: '#d64f7f', dressC: '#d64f7f', hemC: '#f08fb0', sparkleC: '#ffe0ef', shortSleeve: true, deco: 'gown',
+  pantsStyle: 'gown', shoeC: '#ffd23f', earrings: true, lips: '#c2185b',
+};
+const ANGELA_WORK = { ...ANGELA, ...GOWN };
+const NIELSEN_SUIT = {
+  ...NIELSEN, shirtC: '#2e3b63', sleeveC: '#2e3b63', deco: 'suit', tieC: '#e2466f', tieC2: '#ff7aa8', lapelC: '#1e2848',
+  belt: false, pantsC: '#2e3b63', shoeC: '#1a1a1a', prop: 'kopi',
+};
+const NIELSEN_SUIT_NOKOPI = { ...NIELSEN_SUIT, prop: null };
+// colleagues and family members
+const CW = [
+  { seed: 1.1, bw: 8, torso: 8, legs: 7, hair: 'bob', hairC: '#3a2a20', shirtC: '#ffcf6b', pantsStyle: 'trousers', pantsC: '#4a4a5a', shoeC: '#333' },
+  { seed: 2.4, bw: 8, torso: 8, legs: 8, hair: 'short', hairC: '#1a1a1a', glasses: true, glassC: '#333', shirtC: '#7fd1ae', collarC: '#ffffff', deco: 'collar', pantsStyle: 'trousers', pantsC: '#3a4a5a', shoeC: '#333' },
+  { seed: 3.7, bw: 8, torso: 8, legs: 7, hair: 'pony', hairC: '#8a4a2a', tieC: '#ffd23f', shirtC: '#c3a6ff', pantsStyle: 'trousers', pantsC: '#4a3a6a', shoeC: '#333' },
+];
+const FAMILY = [
+  { seed: 0.5, bw: 8, torso: 8, legs: 7, hair: 'bun', hairC: '#c9c9d1', shirtC: '#7fc8a9', sleeveC: '#7fc8a9', deco: 'kebaya', pantsStyle: 'sarong', dressC: '#8a5ac8', dotC: '#ffd166', dot2C: '#ffffff', shoeC: '#a85a3a' },
+  { seed: 1.6, bw: 8, torso: 8, legs: 8, hair: 'short', hairC: '#d0d0d8', stache: true, glasses: true, glassC: '#555', shirtC: '#f2d16b', deco: 'batik', batikC: '#c0563a', pantsStyle: 'trousers', pantsC: '#4a4a5a', shoeC: '#3a2a20' },
+  { seed: 2.1, bw: 8, torso: 8, legs: 7, hair: 'bob', hairC: '#2a1d1d', shirtC: '#ff9fb0', sleeveC: '#ff9fb0', deco: 'kebaya', pantsStyle: 'sarong', dressC: '#3a9a7a', dotC: '#ffffff', dot2C: '#ffd166', shoeC: '#c8467a' },
+  { seed: 2.8, bw: 8, torso: 8, legs: 8, hair: 'short', hairC: '#222', shirtC: '#5aa0e0', deco: 'batik', batikC: '#ffd23f', pantsStyle: 'trousers', pantsC: '#2e3550', shoeC: '#222' },
+  { seed: 3.3, bw: 8, torso: 8, legs: 7, hair: 'pony', hairC: '#4a2a1a', tieC: '#ff5a8a', shirtC: '#c3a6ff', sleeveC: '#c3a6ff', deco: 'kebaya', pantsStyle: 'sarong', dressC: '#e2766a', dotC: '#ffffff', dot2C: '#ffe14d', shoeC: '#7a3fb0' },
+  { seed: 4.2, bw: 8, torso: 8, legs: 8, hair: 'spiky', hairC: '#2a2020', glasses: true, glassC: '#2a6fc0', shirtC: '#e2766a', deco: 'batik', batikC: '#fff3c0', pantsStyle: 'trousers', pantsC: '#3a3a4a', shoeC: '#222' },
+];
+
 function drawPerson(p, x, feetY, o = {}) {
   const t = o.t || 0, s = o.s || 2;
   const { bw, torso, legs } = p;
@@ -134,7 +160,10 @@ function drawPerson(p, x, feetY, o = {}) {
   const hc = p.hairC;
 
   // --- back hair
-  if (p.hair === 'long') R(-6, 2, 12, 12 + Math.min(torso, 6), hc);
+  if (p.hair === 'long') {
+    R(-6, 2, 12, 12 + Math.min(torso, 6), hc);
+    if (o.flutter) { const f = Math.floor(t * 14) % 3; R(-8 - f, 4 + f, 2, 6, hc); R(-9 + f, 10, 2, 5 - f, hc); R(-7, 15 + f, 1, 3, hc); }
+  }
   if (p.hair === 'pony') {
     R(-8, 1, 3, 3, hc); R(-9, 3, 3, 5, hc); R(-8, 8, 2, 1, hc); R(-6, 1, 1, 2, p.tieC);
   }
@@ -158,6 +187,12 @@ function drawPerson(p, x, feetY, o = {}) {
     case 'dress':
       for (let i = 0; i < legs - 2; i++) R(-hw - (i >> 1), lt + i, bw + 2 * (i >> 1), 1, p.dressC);
       R(-hw - ((legs - 3) >> 1), lt + legs - 3, bw + 2 * ((legs - 3) >> 1), 1, p.hemC);
+      break;
+    case 'gown':
+      for (let i = 0; i < legs; i++) R(-hw - (i >> 1), lt + i, bw + 2 * (i >> 1), 1, p.dressC);
+      R(-hw - ((legs - 1) >> 1), lt + legs - 1, bw + 2 * ((legs - 1) >> 1), 1, p.hemC);
+      if (Math.floor(t * 3) % 2) { R(-2, lt + 2, 1, 1, p.sparkleC); R(2, lt + 4, 1, 1, p.sparkleC); }
+      else { R(1, lt + 1, 1, 1, p.sparkleC); R(-3, lt + 5, 1, 1, p.sparkleC); }
       break;
     case 'sarong':
       R(-hw, lt, bw, legs, p.dressC);
@@ -194,6 +229,24 @@ function drawPerson(p, x, feetY, o = {}) {
     case 'stripes':
       for (let i = 1; i < torso; i += 2) R(-hw, hb + i, bw, 1, p.stripeC);
       break;
+    case 'robe':
+      R(-2, hb, 1, 4, WHITE); R(1, hb, 1, 4, WHITE); R(-1, hb, 2, 2, SKIN);
+      R(-hw, hb + torso - 2, bw, 1, '#ff7aa8'); R(1, hb + torso - 2, 2, 2, '#ff7aa8');
+      break;
+    case 'gown':
+      R(-1, hb, 2, 1, SKIN); R(-hw, hb + torso - 2, bw, 1, p.beltC || '#a83560'); R(-1, hb + torso - 2, 2, 1, '#ffd23f');
+      break;
+    case 'suit':
+      R(-2, hb, 4, 1, WHITE); R(-2, hb + 1, 1, 2, WHITE); R(1, hb + 1, 1, 2, WHITE);
+      R(-1, hb, 2, 1, p.tieC); R(-1, hb + 1, 2, 5, p.tieC); R(-1, hb + 2, 2, 1, p.tieC2);
+      R(-3, hb, 1, 4, p.lapelC); R(2, hb, 1, 4, p.lapelC);
+      R(-1, hb + torso - 2, 1, 1, '#c9b46a');
+      R(hw - 2, hb + 1, 1, 1, WHITE);
+      break;
+    case 'batik':
+      for (let i = 1; i < torso; i += 2) for (let j = -hw + ((i >> 1) % 2); j < hw; j += 3) R(j, hb + i, 1, 1, p.batikC);
+      R(-1, hb, 2, 1, SKIN);
+      break;
     case 'kebaya':
       R(-hw, hb + torso - 1, bw, 1, '#ffd1e3');
       R(-1, hb + 1, 1, 1, '#ffcc33'); R(-1, hb + 3, 1, 1, '#ffcc33'); R(-1, hb + 5, 1, 1, '#ffcc33');
@@ -219,6 +272,13 @@ function drawPerson(p, x, feetY, o = {}) {
   }
 
   // --- props in front of body
+  if (p.prop === 'kopi' && o.kopi) {
+    for (let k = 0; k < o.kopi; k++) {
+      const kx = hw - 1 + k * 3 - (o.kopi - 1), ky = hb + torso - 1;
+      R(kx + 1, ky, 1, 2, WHITE);
+      R(kx, ky + 2, 3, 4, '#a8682f'); R(kx, ky + 2, 3, 1, '#ead6b8'); R(kx, ky + 5, 3, 1, '#8a5020');
+    }
+  }
   if (p.prop === 'book') { R(hw - 2, hb + 3, 4, 4, '#e2564a'); R(hw - 2, hb + 3, 4, 1, '#fff2d8'); R(hw + 1, hb + 3, 1, 4, '#b8382e'); }
 
   // --- head
@@ -249,6 +309,14 @@ function drawPerson(p, x, feetY, o = {}) {
     case 'boy':
       R(-4, -1, 8, 1, hc); R(-5, 0, 10, 3, hc); R(-5, 3, 1, 2, hc); R(4, 3, 1, 1, hc);
       break;
+    case 'bun':
+      R(-4, -1, 8, 1, hc); R(-5, 0, 10, 3, hc); R(-5, 3, 1, 3, hc); R(4, 3, 1, 3, hc);
+      R(-2, -4, 5, 3, hc); R(-1, -5, 3, 1, hc); R(2, -3, 2, 1, '#ffcc33');
+      break;
+    case 'towel':
+      R(-6, -3, 12, 6, p.towelC); R(-5, -5, 10, 2, p.towelC); R(-3, -7, 6, 2, p.towelC); R(1, -8, 3, 2, p.towelC2);
+      R(-6, 1, 12, 1, p.towelC2); R(-4, -3, 1, 4, p.towelC2); R(2, -5, 1, 4, p.towelC2);
+      break;
   }
   if (p.cap) { R(-5, -1, 10, 3, p.cap); R(-4, -2, 8, 1, p.cap); R(3, 1, 4, 1, '#2a6fc0'); R(-1, -2, 2, 1, WHITE); }
   if (p.headband) R(-5, 1, 10, 1, p.headband);
@@ -277,7 +345,9 @@ function drawPerson(p, x, feetY, o = {}) {
     if (((t * 0.9 + p.seed) % 2.6) < 0.22 || o.glint) { R(4, 4, 1, 1, WHITE); R(-2, 4, 1, 1, WHITE); }
   }
   if (p.stache) { R(-1, 7, 4, 1, hc); R(0, 8, 2, 1, MOUTH); }
-  else R(0, 8, 2, 1, MOUTH);
+  else R(0, 8, 2, 1, p.lips || MOUTH);
+  if (p.earrings) { R(-5, 7, 1, 2, '#ffd23f'); R(4, 7, 1, 2, '#ffd23f'); }
+  if (o.shine) { R(-4, 6, 1, 1, WHITE); R(3, 6, 1, 1, WHITE); if (Math.floor(t * 4) % 2) R(1, 5, 1, 1, WHITE); }
 
   C.restore();
 
@@ -337,18 +407,115 @@ function drawBear(b, x, y, t = 0, opts = {}) {
   bmp(sym.rows, x + 4 * s, y + 10 * s, sym.pal, s);
 }
 
-// ------------------------------------------------------------------ Singapore scenery
-function hdb(x, base, w, h, col, dark) {
-  const y = base - h;
-  R(x, y, w, h, col);
-  R(x, y, w, 3, dark);
-  for (let yy = y + 6; yy < base - 11; yy += 5) {
-    R(x, yy + 3, w, 1, dark);
-    for (let xx = x + 3; xx < x + w - 3; xx += 4) R(xx, yy, 2, 2, (xx * 7 + yy * 3) % 5 === 0 ? '#fff3b0' : '#6f84a0');
-  }
-  R(x + 2, base - 8, w - 4, 8, 'rgba(0,0,0,0.18)');
-  for (let xx = x + 2; xx < x + w - 2; xx += 7) R(xx, base - 8, 2, 8, col);
+// Churros the bunny (side view, facing right)
+const BUNNY = [
+  '........EE.EE...',
+  '........EP.EP...',
+  '........EP.EP...',
+  '........EE.EE...',
+  '.......BBBBBB...',
+  '......BBBBBKBB..',
+  '......BBBBRBBBN.',
+  '..BBBBBBBBBBBB..',
+  '.BBBBBBBBBBBB...',
+  'TBBBBBBBBBBB....',
+  'TBBBBBCCCBBB....',
+  '.BBBBBBBBBB.....',
+  '..FF.....FF.....',
+];
+const BUNNY_PAL = { B: '#d9a066', E: '#d9a066', P: '#ffb3c6', K: EYE, R: '#ff9fb8', N: '#ff7aa8', T: '#fff3e0', C: '#f3c995', F: '#b97f45' };
+function drawBunny(x, y, t, opts = {}) {
+  const s = opts.s || 2, face = opts.face || 1;
+  const hop = opts.hop ? Math.round(Math.abs(Math.sin(t * (opts.hopSpeed || 7))) * (opts.hopH || 6)) : 0;
+  const rows = face < 0 ? BUNNY.map((r) => [...r].reverse().join('')) : BUNNY;
+  const yy = Math.round(y - hop * s);
+  if (opts.hop) R(x + 2 * s, y + 13 * s, 10 * s, s, 'rgba(0,0,0,0.15)');
+  bmp(rows, Math.round(x), yy, BUNNY_PAL, s);
+  if (opts.bow) { const bx = face < 0 ? x + 6 * s : x + 8 * s; R(bx - s, yy + 7 * s, s, 2 * s, '#ff5a9a'); R(bx + s, yy + 7 * s, s, 2 * s, '#ff5a9a'); R(bx, yy + 7 * s, s, s, '#c2185b'); }
 }
+// a matcha whisk with a face (transition buddy)
+const WHISK = [
+  '....HH....',
+  '....HH....',
+  '....hh....',
+  '....HH....',
+  '....HH....',
+  '...HHHH...',
+  '..BBBBBB..',
+  '.BKBBBBKB.',
+  '.BPBBBBPB.',
+  '.BBBMMBBB.',
+  'B.B.BB.B.B',
+  'B.B.BB.B.B',
+  'B.B.BB.B.B',
+  'B.B.BB.B.B',
+  'b.b.bb.b.b',
+  '.b.b..b.b.',
+];
+const WHISK_PAL = { H: '#d8b878', h: '#b8985a', B: '#ecd39a', b: '#c9a868', K: EYE, P: '#ff9fb8', M: '#d0607a' };
+const VASELINE = ['.LLLLLL.', 'LLLLLLLL', 'WWWWWWWW', 'WbbbbbbW', 'WWWWWWWW', '.WWWWWW.'];
+const VAS_PAL = { L: '#3b6fd6', W: '#f4f8ff', b: '#3b6fd6' };
+const DRYER = [
+  'DPPPPPPPPNN.',
+  'DPPPPPWPPNNN',
+  'DPPPPPPPPNNN',
+  'DPPPPPPPPNN.',
+  '...PPP......',
+  '...PWP......',
+  '...PPP......',
+  '...PPP......',
+];
+const DRYER_L = DRYER.map((r) => [...r].reverse().join(''));
+const DRYER_PAL = { P: '#ff8fb8', D: '#c94f80', N: '#e86a9a', W: '#ffffff' };
+const TOWEL = [
+  'TTTTTTTTTT',
+  'TTTTTTTTTT',
+  'TTTTTTTTTT',
+  'SSSSSSSSSS',
+  'TTTTTTTTTT',
+  'TTTTTTTTTT',
+  'TTTTTTTTTT',
+  'TTTTTTTTTT',
+  'TTTTTTTTTT',
+  'SSSSSSSSSS',
+  'TTTTTTTTTT',
+  'TTTTTTTTTT',
+  'T.T.T.T.T.',
+];
+const TOWEL_PAL = { T: '#ffb3d1', S: '#ffffff' };
+const DRESS = [
+  '.....KK.....',
+  '......K.....',
+  '....KKKK....',
+  '..KK....KK..',
+  '..GG....GG..',
+  '..GGGGGGGG..',
+  '..GGGGGGGG..',
+  '..GGSGGGGG..',
+  '...GGGGGG...',
+  '...gggggg...',
+  '..GGGGGGGG..',
+  '..GGGGGSGG..',
+  '.GGGGGGGGGG.',
+  '.GGSGGGGGGG.',
+  '.GGGGGGGGGG.',
+  'GGGGGGGSGGGG',
+  'GGGGGGGGGGGG',
+  'GGGSGGGGGGGG',
+  'GGGGGGGGGGGG',
+  'HHHHHHHHHHHH',
+];
+const DRESS_PAL = { K: '#c9a27a', G: '#d64f7f', g: '#a83560', S: '#ffe0ef', H: '#f08fb0' };
+const ARROW = ['.KKKKK.', '.KWWWK.', '.KWWWK.', 'KKWWWKK', 'KWWWWWK', '.KWWWK.', '..KWK..', '...K...'];
+function twinkle(x, y, c) { R(x, y - 1, 1, 3, c); R(x - 1, y, 3, 1, c); }
+function meter(x, y, w, v, col, label) {
+  R(x, y, w, 7, '#ffffff'); R(x + 1, y + 1, w - 2, 5, '#2a2050');
+  R(x + 1, y + 1, Math.round((w - 2) * Math.min(1, v)), 5, col);
+  R(x + 1, y + 1, Math.round((w - 2) * Math.min(1, v)), 1, 'rgba(255,255,255,0.5)');
+  if (label) bmp(label.rows, x - label.rows[0].length - 3, y, label.pal);
+}
+
+// ------------------------------------------------------------------ Singapore scenery
 function rainTree(x, base) {
   R(x + 9, base - 18, 4, 18, '#8a5a3a');
   R(x - 4, base - 26, 30, 7, '#5fb35a');
@@ -356,15 +523,6 @@ function rainTree(x, base) {
   R(x + 3, base - 34, 16, 4, '#6fc46a');
   R(x - 4, base - 20, 30, 1, '#4a9a48');
   R(x + 4, base - 31, 3, 1, '#9be08a'); R(x + 13, base - 28, 3, 1, '#9be08a'); R(x - 1, base - 24, 3, 1, '#9be08a');
-}
-function supertree(x, base, h, trunk, canopy, vine, lights) {
-  const top = base - h;
-  R(x - 1, top, 3, h, trunk);
-  R(x - 2, base - 6, 5, 6, trunk);
-  for (let y = top + 3; y < base - 2; y += 3) { R(x - 1, y, 1, 1, vine); R(x + 1, y + 1, 1, 1, vine); }
-  for (let i = 0; i < 7; i++) R(x - 2 - i * 2, top - i, 5 + i * 4, 1, canopy);
-  for (let i = 0; i < 7; i += 2) R(x - 2 - i * 2, top - i, 1, 1, lights || vine);
-  if (lights) for (let i = 1; i < 7; i += 2) R(x + 2 + i * 2, top - i, 1, 1, lights);
 }
 function skyline(col, win) {
   const base = 122;
@@ -454,14 +612,70 @@ function buildBackgrounds() {
     for (let y = 126; y < 160; y += 3) for (let x = (y * 7) % 11; x < W; x += 13) R(x, y, 4, 1, '#4a2d6a');
   });
 
-  BG.hdb = layer(W, H, () => {
-    [[4, 34, 62, '#f7c6c6', '#e8a8a8'], [44, 28, 76, '#c8e3f7', '#a3c8e6'], [78, 36, 56, '#f7e7b0', '#e6cf86'],
-     [122, 30, 72, '#d4c8f2', '#b6a6e0'], [160, 34, 60, '#bfe8d4', '#98d2b6'], [200, 32, 80, '#f7d2b0', '#e6b48a']]
-      .forEach(([x, w, h, c, d]) => hdb(x, 112, w, h, c, d));
+  BG.bedroom = layer(W, H, () => {
+    R(0, 0, W, 118, '#f3e6ff');
+    for (let y = 8; y < 108; y += 12) for (let x = (y % 24 ? 6 : 12); x < W; x += 12) R(x, y, 1, 1, '#e3cdfa');
+    R(0, 108, W, 10, '#e2cdf7'); R(0, 108, W, 1, '#d2b8ee');
+    R(0, 118, W, 42, '#e0b98f');
+    for (let y = 118; y < H; y += 7) { R(0, y, W, 1, '#c99f74'); for (let x = (y % 14 ? 14 : 40); x < W; x += 52) R(x, y, 1, 7, '#c99f74'); }
+    R(66, 142, 118, 16, '#ffc2d9'); R(66, 142, 118, 1, '#ff9fc0'); R(66, 157, 118, 1, '#ff9fc0');
+    for (let x = 70; x < 182; x += 8) R(x, 149, 4, 2, '#ffe0ec');
+    // window with morning sun
+    R(88, 8, 64, 2, '#c9a27a');
+    R(94, 12, 52, 44, '#fffaf0');
+    R(97, 15, 46, 13, '#ffe7b8'); R(97, 28, 46, 13, '#ffd5c0'); R(97, 41, 46, 12, '#ffe2ee');
+    R(114, 38, 12, 8, '#ffd84d'); R(116, 36, 8, 2, '#ffd84d'); R(112, 40, 16, 4, '#ffd84d');
+    R(97, 46, 46, 7, '#cfe8c8'); R(97, 46, 46, 1, '#b4dcab');
+    R(119, 15, 2, 38, '#fffaf0'); R(97, 33, 46, 2, '#fffaf0');
+    R(86, 10, 9, 52, '#ff9fc0'); R(145, 10, 9, 52, '#ff9fc0');
+    for (let y = 12; y < 62; y += 4) { R(88, y, 1, 3, '#ff86b0'); R(150, y, 1, 3, '#ff86b0'); }
+    R(84, 58, 72, 3, '#fffaf0');
+    // hooks for the towel and the dress
+    R(24, 52, 8, 2, '#c9a27a'); R(27, 50, 2, 2, '#c9a27a');
+    R(68, 34, 4, 2, '#c9a27a');
+    // vanity mirror with bulbs
+    const ell = (cx, cy, rx, ry, col) => { for (let dy = -ry; dy <= ry; dy++) { const w = Math.round(rx * Math.sqrt(1 - (dy / ry) ** 2)); R(cx - w, cy + dy, w * 2, 1, col); } };
+    ell(192, 60, 30, 40, '#f2c46d'); ell(192, 60, 28, 38, '#ffe39a'); ell(192, 60, 26, 36, '#e4f3ff');
+    for (let k = 0; k < 14; k++) {
+      const a = (k / 14) * Math.PI * 2;
+      R(192 + Math.cos(a) * 33 - 1, 60 + Math.sin(a) * 43 - 1, 3, 3, '#fff6c0');
+    }
+    // vanity table
+    R(146, 100, 92, 5, '#ffffff'); R(146, 104, 92, 1, '#e8d0f0');
+    R(150, 105, 84, 26, '#ffd6e6');
+    R(154, 109, 36, 9, '#ffe6ef'); R(194, 109, 36, 9, '#ffe6ef'); R(154, 120, 76, 8, '#ffe6ef');
+    R(170, 112, 4, 2, '#f2c46d'); R(210, 112, 4, 2, '#f2c46d'); R(190, 123, 4, 2, '#f2c46d');
+    R(152, 131, 4, 19, '#f0b8d0'); R(228, 131, 4, 19, '#f0b8d0');
+    // perfume + lipstick (decor)
+    R(184, 92, 6, 8, '#c8a6ff'); R(185, 90, 4, 2, '#f2c46d'); R(186, 93, 1, 4, '#e8dcff');
+    R(194, 94, 3, 6, '#e2466f'); R(194, 92, 3, 2, '#c2185b');
   });
-  BG.trees = layer(W, H, () => {
-    [40, 100, 160, 220].forEach((x) => R(x, 99, 4, 29, '#cfd6dc'));
-    [10, 70, 130, 190].forEach((x) => rainTree(x, 128));
+
+  BG.office = layer(W, H, () => {
+    R(0, 0, W, 118, '#e3ecf6');
+    // big windows with the CBD
+    R(6, 8, 228, 50, '#ffffff');
+    R(9, 11, 222, 44, '#b8e0ff'); R(9, 11, 222, 14, '#a3d6ff');
+    cloud(30, 16); cloud(150, 20);
+    [[14, 20, 26], [36, 14, 34], [52, 18, 22], [74, 12, 38], [88, 20, 28], [112, 16, 40], [130, 22, 24], [154, 14, 36], [170, 20, 30], [194, 16, 42], [212, 18, 26]]
+      .forEach(([x, w, h], i) => {
+        const c = i % 2 ? '#8fb3d6' : '#a2c1e0';
+        R(x, 55 - h, w, h, c);
+        for (let y = 58 - h; y < 53; y += 4) for (let xx = x + 2; xx < x + w - 1; xx += 3) R(xx, y, 1, 2, '#d8ecff');
+      });
+    for (let x = 6; x <= 234; x += 57) R(x, 8, 3, 50, '#ffffff');
+    R(6, 56, 228, 3, '#ffffff');
+    // wall decor
+    R(112, 66, 16, 16, '#ffffff'); R(113, 67, 14, 14, '#2a2d3a'); R(114, 68, 12, 12, '#fffaf0'); R(119, 70, 1, 5, '#2a2d3a'); R(120, 74, 3, 1, '#2a2d3a');
+    R(150, 64, 40, 26, '#ffffff'); R(151, 65, 38, 24, '#f6f9fc');
+    R(155, 82, 4, 4, '#ff7aa8'); R(161, 78, 4, 8, '#5ab4ff'); R(167, 74, 4, 12, '#5fd38a'); R(173, 70, 4, 16, '#ffb347');
+    R(36, 66, 30, 20, '#ffffff'); R(38, 68, 26, 16, '#ffe9f2'); bmp(['.XX.XX.', 'XXXXXXX', '.XXXXX.', '..XXX..', '...X...'], 47, 72, '#ff7aa8');
+    R(0, 112, W, 6, '#cfdbe8');
+    R(0, 118, W, 42, '#9fb0c8');
+    for (let y = 122; y < H; y += 6) for (let x = (y % 12 ? 0 : 6); x < W; x += 12) R(x, y, 2, 1, '#8ea0ba');
+    // plants
+    R(4, 96, 10, 16, '#e88a5a'); R(2, 80, 4, 16, '#4caf50'); R(7, 74, 4, 22, '#5fbf5a'); R(12, 82, 4, 14, '#4caf50');
+    R(226, 96, 10, 16, '#e88a5a'); R(224, 82, 4, 14, '#4caf50'); R(229, 76, 4, 20, '#5fbf5a'); R(234, 84, 4, 12, '#4caf50');
   });
 
   BG.room = layer(W, H, () => {
@@ -490,25 +704,6 @@ function buildBackgrounds() {
     R(150, 64, 70, 2, '#6e4630');
     for (let i = 0; i < 4; i++) { R(152 + i * 17, 66, 15, 18, i % 2 ? '#5fa84a' : '#4a8f3a'); }
     bmp(['.X.', 'XXX', '.X.'], 167, 72, '#fff8ef', 1);
-  });
-
-  BG.garden = layer(W, H, () => {
-    sky(['#a9dcff', '#c4e7ff', '#dff1ff', '#ffe6f1', '#ffd6e8'], 0, 132);
-    cloud(150, 18); cloud(92, 34); cloud(20, 12);
-    // glass domes far away
-    for (let dy = 0; dy < 20; dy++) { const w = Math.round(30 * Math.sqrt(1 - (dy / 20) ** 2)); R(120 - w, 132 - dy, w * 2, 1, dy % 4 ? '#d6e6f2' : '#c2d6e6'); }
-    for (let dy = 0; dy < 14; dy++) { const w = Math.round(18 * Math.sqrt(1 - (dy / 14) ** 2)); R(158 - w, 132 - dy, w * 2, 1, dy % 4 ? '#dcefe6' : '#c6e0d4'); }
-    // supertrees with skyway
-    R(26, 74, 36, 2, '#cdb8e6');
-    supertree(26, 132, 86, '#8a5bb0', '#a77bd0', '#6cc48f');
-    supertree(62, 132, 70, '#7a4fa0', '#9b6fc8', '#6cc48f');
-    supertree(200, 132, 92, '#8a5bb0', '#b48ce0', '#6cc48f');
-    supertree(228, 132, 64, '#7a4fa0', '#9b6fc8', '#6cc48f');
-    R(0, 132, W, 28, '#86d07a');
-    R(0, 142, W, 12, '#f0dfb8'); R(0, 142, W, 1, '#d9c595'); R(0, 153, W, 1, '#d9c595');
-    const fl = ['#ff7aa8', '#ffe14d', '#ffffff', '#c39bff'];
-    for (let i = 0; i < 40; i++) { const x = (i * 37) % W, y = 134 + (i * 13) % 7; R(x, y, 1, 1, fl[i % 4]); }
-    for (let i = 0; i < 30; i++) { const x = (i * 53 + 11) % W, y = 155 + (i * 7) % 4; R(x, y, 1, 1, fl[(i + 1) % 4]); }
   });
 
   BG.night = layer(W, H, () => {
@@ -762,11 +957,29 @@ function pop(text, x, y, color = '#ff4f8b', delay = 0) {
 }
 
 // ------------------------------------------------------------------ scenes
+function angelaMorning(st) {
+  const p = { ...ANGELA, ...(st.outfit === 'gown' ? GOWN : ROBE) };
+  if (st.hair === 'towel') { p.hair = 'towel'; p.towelC = '#ffb3d1'; p.towelC2 = '#ffffff'; }
+  else if (st.hair === 'wet') { p.hairC = '#4a2c1c'; p.hairHi = '#5a3624'; }
+  return p;
+}
+function kopiDesk(cx, hasKopi, t) {
+  R(cx + 8, 106, 15, 11, '#2a2d3a'); R(cx + 9, 107, 13, 9, Math.floor(t * 2 + cx) % 5 ? '#8fd3ff' : '#a8e0ff');
+  for (let i = 0; i < 3; i++) R(cx + 10, 108 + i * 2, 4 + ((i * 7 + Math.floor(t * 3)) % 7), 1, '#4f8fe0');
+  R(cx + 14, 117, 3, 5, '#555a6a');
+  R(cx - 24, 122, 48, 4, '#c9a27a'); R(cx - 24, 122, 48, 1, '#dcbb94');
+  R(cx - 22, 126, 44, 14, '#a88058'); R(cx - 22, 126, 44, 1, '#8a6440');
+  R(cx - 20, 140, 4, 10, '#8a6440'); R(cx + 16, 140, 4, 10, '#8a6440');
+  if (hasKopi) {
+    R(cx - 19, 113, 6, 9, '#a8682f'); R(cx - 19, 113, 6, 2, '#ead6b8'); R(cx - 17, 110, 1, 3, WHITE); R(cx - 13, 116, 1, 3, WHITE);
+  }
+}
+
 const scenes = [
   // 0 ---------------------------------------------------------------- TITLE
   {
     music: null,
-    lines: ['♪ Sound on for the full experience! Tap anywhere to begin your quest...'],
+    lines: ['♪ Sound on for the full experience! Tap anywhere to begin...'],
     init(st) { titleOv.classList.add('show'); st.fw = 0; },
     exit() { titleOv.classList.remove('show'); },
     draw(t, dt, st) {
@@ -777,138 +990,197 @@ const scenes = [
       for (let x = 0; x < W; x += 9) R(x + Math.round(Math.sin(t * 2 + x) * 2), 128 + (x % 5) * 5, 5, 1, '#c86a8a');
       drawPerson(ANGELA, 84, 154, { t, wave: true });
       drawBear(BEARS[0], 112, 100 + Math.round(Math.sin(t * 2) * 2), t, { cloud: true, wave: true });
+      drawBunny(150, 128, t, { hop: true, hopSpeed: 4 });
     },
   },
 
-  // 1 ---------------------------------------------------------------- LEVEL 1
+  // 1 ---------------------------------------------------------------- MORNING GLOW-UP (interactive)
   {
-    music: 'adventure', card: ['LEVEL 1', 'LITTLE ADVENTURERS'],
+    music: 'adventure', card: ['07:00 AM', 'GLOW-UP TIME'], trans: 'bunny',
     lines: [
-      'Once upon a time, in sunny Singapore, lived a hero named ANGELA.',
-      'Long brown hair. Big sparkly eyes. Infinite patience. (Mostly.)',
-      'And she never adventured alone. Her party: two brave little sidekicks!',
-      { text: 'Her son: muay thai fighter in training. Tight black tee. Serious shorts.', on: (st) => { st.jab = true; pop('KAPOW!', 126, 96, '#e23a3a'); } },
-      { text: 'Her daughter: netball superstar. Never, ever drops a pass!', on: (st) => { st.toss = true; pop('NICE CATCH!', 66, 66, '#1a9a8e', 700); } },
+      'Fresh out of the shower... time for Angela to get ready for work!',
+      { text: 'Step 1: wrap up that wet hair. Tap the TOWEL!', target: 'towel', label: 'TOWEL',
+        done: (st) => { st.hair = 'towel'; st.towelGone = true; pop('SNUG!', 118, 92, '#ff5a9a'); sfx('jingle'); } },
+      { text: 'Step 2: the secret skincare weapon... Tap the VASELINE!', target: 'vaseline', label: 'VASELINE',
+        done: (st, t) => { st.shine = true; st.glowT = t; pop('+100 GLOW', 118, 90, '#3b6fd6'); sfx('sparkle'); } },
+      { text: 'Step 3: towel off, time to blow-dry! Tap the HAIRDRYER (keep tapping!)', target: 'dryer', label: 'HAIRDRYER', taps: 6,
+        onTap: (st, n) => {
+          st.hair = 'wet'; st.drying = true; st.dryT = 0.5; st.dryTarget = n / 6;
+          pop(pick(['WHOOSH!', 'VRRRR!', 'FWOOSH!']), rand(96, 140), rand(78, 96), '#ff5a9a');
+        },
+        done: (st) => { st.hair = 'dry'; st.drying = false; st.dryerBack = true; pop('SO FLUFFY!', 118, 84, '#c2185b'); sfx('jingle'); } },
+      { text: 'Last step: tap the DRESS!', target: 'dress', label: 'DRESS',
+        done: (st, t) => { st.spin = t; sfx('sparkle'); } },
+      { text: 'Ta-da! All glammed up and ready for work! ✨', on: () => pop('★ GORGEOUS ★', 118, 80, '#c2185b') },
     ],
-    init(st) { st.scroll = 0; },
+    hot(st) {
+      return {
+        towel: { x: 18, y: 54, w: 20, h: 26 },
+        vaseline: { x: 158, y: 88, w: 16, h: 12 },
+        dryer: st.drying ? { x: 134, y: 98, w: 24, h: 16, alt: { x: 206, y: 84, w: 24, h: 16 } } : { x: 206, y: 84, w: 24, h: 16 },
+        dress: { x: 58, y: 36, w: 24, h: 46 },
+      };
+    },
+    init(st) { st.hair = 'wet'; st.outfit = 'robe'; st.dry = 0; st.dryTarget = 0; st.spin = -9; },
     draw(t, dt, st) {
-      st.scroll += dt * 26;
-      sky(['#8fd3ff', '#a8ddff', '#c3e8ff', '#e0f4ff'], 0, 112);
-      R(0, 108, W, 20, '#b4e2a4'); R(0, 108, W, 1, '#c8ecb8');
-      cloud(((40 - st.scroll * 0.08) % 280 + 280) % 280 - 30, 12);
-      cloud(((180 - st.scroll * 0.08) % 280 + 280) % 280 - 30, 28);
-      drawLoop(BG.hdb, st.scroll * 0.25);
-      // MRT line
-      R(0, 96, W, 4, '#cfd6dc'); R(0, 99, W, 1, '#aab3bb');
-      const tx = 300 - ((t * 75) % 600);
-      for (let k = 0; k < 3; k++) {
-        const cx = tx + k * 30;
-        R(cx, 86, 28, 10, '#f4f6f8'); R(cx, 91, 28, 2, '#e2363a');
-        for (let w = 3; w < 26; w += 6) R(cx + w, 88, 4, 2, '#5a7a9a');
-      }
-      R(tx - 3, 88, 3, 8, '#f4f6f8');
-      drawLoop(BG.trees, st.scroll * 0.6);
-      R(0, 128, W, 6, '#7cc96a'); R(0, 128, W, 1, '#9be08a');
-      R(0, 134, W, 26, '#e8d3a8');
-      for (let i = -1; i < 14; i++) { const x = i * 20 - (st.scroll % 20); R(x, 139, 8, 2, '#d8bf8f'); R(x + 11, 153, 6, 2, '#d8bf8f'); }
-      for (let i = -1; i < 26; i++) { const x = i * 10 - (st.scroll % 10); R(x, 130, 1, 1, i % 3 ? '#ffffff' : '#ff8fb1'); }
+      C.drawImage(BG.bedroom, 0, 0);
+      st.dry = lerp(st.dry, st.dryTarget, Math.min(1, dt * 6));
+      if (st.dryT > 0) st.dryT -= dt;
+      const spinning = st.spin > 0 && t - st.spin < 0.9;
+      if (st.spin > 0 && t - st.spin > 0.45) st.outfit = 'gown';
+      const ang = angelaMorning(st);
 
-      drawPerson(DAU_A, 52, 154, { t, walk: !st.toss, ball: true, toss: st.toss });
-      drawPerson(SON_A, 96, 154, { t, walk: true, jab: st.jab });
-      drawPerson(ANGELA, 146, 154, { t, walk: true });
-      if (Math.random() < dt * 0.8) floatHeart(rand(50, 150), 100);
+      // reflection in the mirror
+      C.save(); C.beginPath(); C.ellipse(192, 60, 26, 36, 0, 0, Math.PI * 2); C.clip();
+      drawPerson(ang, 196, 112, { t, face: -1, shine: st.shine });
+      R(166, 24, 52, 72, 'rgba(228,243,255,0.35)');
+      for (let i = 0; i < 3; i++) R(172 + i * 4 + ((t * 6) % 40), 30 + i * 3, 2, 50, 'rgba(255,255,255,0.35)');
+      C.restore();
+
+      // items
+      if (!st.towelGone) { bmp(TOWEL, 18, 54, TOWEL_PAL, 2); }
+      bmp(VASELINE, 158, 88, VAS_PAL, 2);
+      if (!st.drying && !st.dryerBack) bmp(DRYER, 206, 84, DRYER_PAL, 2);
+      if (st.dryerBack) bmp(DRYER, 206, 84, DRYER_PAL, 2);
+      if (st.outfit !== 'gown') bmp(DRESS, 58, 36, DRESS_PAL, 2);
+      else R(68, 34, 4, 2, '#c9a27a');
+
+      // Angela
+      const face = spinning ? (Math.floor((t - st.spin) * 14) % 2 ? -1 : 1) : 1;
+      drawPerson(ang, 118, 154, { t, face, bob: !st.drying, shine: st.shine, flutter: st.drying && st.dryT > 0 });
+
+      if (st.drying) {
+        const jig = st.dryT > 0 ? Math.round(Math.sin(t * 40)) : 0;
+        bmp(DRYER_L, 134 + jig, 98, DRYER_PAL, 2);
+        if (st.dryT > 0) for (let i = 0; i < 7; i++) {
+          const ax = 132 - ((t * 120 + i * 9) % 26), ay = 100 + (i * 5) % 12;
+          R(ax, ay, 3, 1, i % 2 ? '#ffffff' : '#bfe6ff');
+        }
+        meter(100, 84, 40, st.dry, '#ff8fb8');
+        bmp(['.B.', 'BBB', 'BBB', '.B.'], 93, 85, '#5ab4ff');
+      }
+      if (st.hair === 'wet' && !st.drying && Math.random() < dt * 3)
+        parts.push({ k: 'px', x: rand(110, 128), y: 130, vx: 0, vy: 10, g: 60, life: 0.5, age: 0, col: '#8fd3ff' });
+      if (st.shine && t - st.glowT < 1.2) for (let i = 0; i < 6; i++) twinkle(118 + Math.cos(t * 5 + i) * 16, 112 + Math.sin(t * 5 + i) * 10, '#ffffff');
+      if (spinning) {
+        const k = (t - st.spin) / 0.9;
+        for (let i = 0; i < 14; i++) { const a = i / 14 * Math.PI * 2 + t * 3; twinkle(118 + Math.cos(a) * (10 + k * 34), 126 + Math.sin(a) * (8 + k * 26), RAINBOW[i % 6]); }
+        if (k > 0.4 && k < 0.6) R(0, 0, W, H, 'rgba(255,255,255,0.6)');
+      }
+      if (st.outfit === 'gown' && !spinning && Math.floor(t * 3) % 2 === 0) {
+        twinkle(100 + ((t * 37) % 40), 104 + ((t * 53) % 44), '#fff6a0');
+        twinkle(110 + ((t * 61) % 36), 100 + ((t * 29) % 50), '#ffffff');
+      }
       drawParts();
     },
   },
 
-  // 2 ---------------------------------------------------------------- LEVEL 2 (matcha)
+  // 2 ---------------------------------------------------------------- EVENING MATCHA (kids around, Churros hopping)
   {
-    music: 'adventure', card: ['LEVEL 2', 'THE MATCHA MOMENT'],
+    music: 'adventure', card: ['06:30 PM', "MATCHA O'CLOCK"], trans: 'whisk',
     lines: [
-      'Every hero needs a power-up.',
-      { text: "Angela's secret weapon? A perfectly whisked bowl of matcha.", on: (st) => { st.speed = 2.2; } },
-      { text: 'Whisk whisk whisk whisk whisk...', on: (st) => { st.speed = 5; pop('WHISK!', 140, 96, '#4a9a3a'); pop('WHISK!', 92, 90, '#4a9a3a', 500); } },
-      { text: '+100 CALM!  +100 FOCUS!  +100 ZEN!', on: (st) => {
-        st.speed = 1.2; st.glow = 1; sfx('jingle');
-        pop('+100 CALM', 70, 80, '#4a9a3a'); pop('+100 FOCUS', 160, 74, '#4a9a3a', 350); pop('+100 ZEN', 116, 60, '#ff4f8b', 700);
-      } },
+      'Home sweet home after a long day at work!',
+      'Time for her favourite power-up...',
+      { text: 'Tap the WHISK to whisk up the matcha! (Whisk whisk whisk!)', target: 'whisk', label: 'WHISK', taps: 8,
+        onTap: (st, n) => { st.speed = Math.min(8, st.speed + 1.6); st.froth = n / 8; pop('WHISK!', n % 2 ? 140 : 92, 92 - (n % 3) * 6, '#4a9a3a'); },
+        done: (st) => {
+          st.glow = 1; sfx('jingle');
+          pop('+100 CALM', 70, 80, '#4a9a3a'); pop('+100 FOCUS', 164, 74, '#4a9a3a', 350); pop('+100 ZEN', 116, 60, '#ff4f8b', 700);
+        } },
+      '+100 CALM!  +100 FOCUS!  +100 ZEN!  Perfectly frothy. ♥',
     ],
-    init(st) { st.speed = 0.8; st.glow = 0; },
+    hot() { return { whisk: { x: 102, y: 96, w: 26, h: 24 } }; },
+    init(st) { st.speed = 0.8; st.glow = 0; st.froth = 0; st.fr = 0; },
     draw(t, dt, st) {
       C.drawImage(BG.room, 0, 0);
+      st.speed = Math.max(st.glow ? 1.2 : 0.8, st.speed - dt * 1.5);
+      st.fr = lerp(st.fr, st.froth, Math.min(1, dt * 6));
       drawBear(BEARS[1], 184, 16, t);
-      drawPerson(ANGELA, 108, 128, { t, bob: true });
-      // whisk + bowl
+      drawPerson(ANGELA_WORK, 108, 128, { t, bob: true });
       const wx = Math.round(113 + Math.sin(t * st.speed * 6) * 3);
       R(wx + 2, 99, 2, 9, '#d8b878'); R(wx + 2, 99, 2, 1, '#b8985a');
       R(wx, 107, 6, 7, '#e8cc90'); for (let i = 0; i < 6; i += 2) R(wx + i, 108, 1, 6, '#c9a868');
       R(107, 113, 18, 2, '#55697d'); R(108, 115, 16, 4, '#3b4a5a'); R(110, 119, 12, 1, '#3b4a5a');
-      R(109, 113, 14, 1, '#7cc35a');
-      for (let i = 0; i < 4; i++) if (Math.floor(t * st.speed * 4 + i) % 3 === 0) R(110 + i * 3, 113, 1, 1, '#b8e89a');
-      // table
+      R(109, 113, 14, 1, st.fr > 0.5 ? '#a8dc7a' : '#7cc35a');
+      for (let i = 0; i < 4; i++) if (Math.floor(t * st.speed * 4 + i) % 3 === 0) R(110 + i * 3, 113, 1, 1, '#d8f5b0');
+      if (st.fr > 0.3) for (let i = 0; i < 5; i++) R(110 + ((i * 5 + Math.floor(t * 8)) % 13), 112, 1, 1, '#eaffd0');
       R(64, 120, 112, 5, '#8a5a3a'); R(64, 120, 112, 1, '#a8724a');
       R(68, 125, 104, 10, '#6e4630'); R(68, 125, 104, 1, '#5a3826');
       R(70, 135, 6, 9, '#5a3826'); R(164, 135, 6, 9, '#5a3826');
       R(150, 117, 7, 3, '#f3efe6'); R(151, 116, 5, 1, '#ffffff');
-      // steam
       for (let i = 0; i < 6; i++) {
         const ph = (t * 9 + i * 4) % 22;
         R(112 + i * 2 + Math.round(Math.sin(ph * 0.4 + i) * 1.5), 111 - ph, 1, 1, ph < 16 ? '#ffffff' : '#f3e6da');
       }
+      if (st.froth > 0 && !st.glow) meter(98, 86, 40, st.fr, '#7cc35a');
       if (st.glow) {
         for (let i = 0; i < 10; i++) {
           const a = t * 2 + i * 0.63, r = 30 + Math.sin(t * 3 + i) * 4;
           if ((i + Math.floor(t * 6)) % 3) R(116 + Math.cos(a) * r, 104 + Math.sin(a) * r * 0.6, 2, 2, i % 2 ? '#8fe36a' : '#fff6a0');
         }
       }
-      drawPerson(SON_A, 182, 154, { t, face: -1, bob: true });
-      drawPerson(DAU_A, 214, 154, { t, face: -1, ball: true, bob: true });
+      // the kids, just doing their thing
+      drawPerson(SON_A, 182, 154, { t, face: -1, jab: Math.floor(t / 1.6) % 2 === 0, bob: true });
+      drawPerson(DAU_A, 214, 154, { t, face: -1, ball: true, toss: true });
+      const bx = 34 + Math.sin(t * 0.7) * 26;
+      drawBunny(bx, 128, t, { hop: true, face: Math.cos(t * 0.7) >= 0 ? 1 : -1 });
       drawParts();
     },
   },
 
-  // 3 ---------------------------------------------------------------- LEVEL 3 (encounter)
+  // 3 ---------------------------------------------------------------- THE KOPI RUN
   {
-    music: 'adventure', card: ['LEVEL 3', 'A NEW ENCOUNTER'],
+    music: 'adventure', card: ['09:00 AM', 'THE KOPI RUN'], trans: 'bear',
     lines: [
-      'One sunny day, out on a stroll through the Gardens...',
-      { text: '!!! A KIND STRANGER APPEARS !!!', on: (st, t) => { st.walking = true; st.excl = t; sfx('surprise'); } },
-      { text: "It's NIELSEN!  Glasses: ✓  Tiny moustache: ✓  Crisp collared shirt: ✓", on: (st) => { st.nx = Math.min(st.nx, 190); } },
-      { text: 'And he had a party of his own: a clever, bespectacled daughter and a cheeky little son!', on: (st) => { st.glint = true; pop('✦', 192, 112, '#7a3fb0'); } },
-      { text: 'Six new friends, waving hello. Something sparkly is in the air...', on: (st, t) => { st.wave = true; st.love = t; } },
+      'Meanwhile, another busy morning at the office...',
+      { text: 'In walked NIELSEN. Suit. Tie. Tiny moustache. Very smart.', on: (st) => { st.queue.push({ x: 228, d: 3 }); } },
+      { text: '...and he bought KOPI for EVERYBODY! ☕', on: (st) => { st.queue.push({ x: 168, d: 2 }, { x: 108, d: 1 }); } },
+      { text: 'One last kopi... specially for Angela.', on: (st) => { st.queue.push({ x: 52, d: 0 }); } },
+      { text: 'Their eyes met over kopi peng... doki doki!', on: (st, t) => { st.love = t; sfx('jingle'); } },
     ],
-    init(st) { st.nx = 290; st.walking = false; st.excl = -9; st.love = -9; },
+    init(st) { st.nx = 290; st.queue = []; st.pause = 0; st.kopi = 4; st.cups = [false, false, false, false]; st.excl = -9; st.love = -9; st.happy = [-9, -9, -9, -9]; },
     draw(t, dt, st) {
-      C.drawImage(BG.garden, 0, 0);
-      const moving = st.walking && st.nx > 150;
-      if (moving) st.nx = Math.max(150, st.nx - dt * 70);
-      drawPerson(DAU_A, 24, 154, { t, ball: true, bob: true, wave: st.wave });
-      drawPerson(SON_A, 58, 154, { t, bob: true, wave: st.wave });
-      drawPerson(ANGELA, 94, 154, { t, bob: true });
-      drawPerson(NIELSEN, st.nx, 154, { t, face: -1, walk: moving, bob: !moving });
-      drawPerson(DAU_N, st.nx + 34, 154, { t, face: -1, walk: moving, bob: !moving, glint: st.glint && Math.floor(t * 2) % 3 === 0, wave: st.wave && !moving });
-      drawPerson(SON_N, st.nx + 64, 154, { t, face: -1, walk: moving, bob: !moving, wave: st.wave && !moving });
-      if (t - st.excl < 2.2 && Math.floor((t - st.excl) * 6) % 2 === 0) bmp(EXCL, 88, 78, { K: EYE, W: WHITE, R: '#e23a3a' }, 2);
-      if (st.love > 0) {
-        bmp(LOVEB, 85, 78 + Math.round(Math.sin(t * 4)), { K: EYE, W: WHITE, R: '#ff4f8b' }, 2);
-        bmp(LOVEB, st.nx - 9, 76 + Math.round(Math.sin(t * 4 + 1)), { K: EYE, W: WHITE, R: '#ff4f8b' }, 2);
-        if (Math.random() < dt * 2) floatHeart(rand(100, 145), 100);
+      C.drawImage(BG.office, 0, 0);
+      let moving = false;
+      if (st.queue.length) {
+        const q = st.queue[0];
+        if (st.pause > 0) { st.pause -= dt; if (st.pause <= 0) st.queue.shift(); }
+        else if (Math.abs(st.nx - q.x) > 1) { st.nx += Math.sign(q.x - st.nx) * Math.min(Math.abs(q.x - st.nx), dt * 75); moving = true; }
+        else {
+          st.pause = q.d === 0 ? 0.01 : 0.6;
+          st.cups[q.d] = true; st.kopi--; st.happy[q.d] = t; sfx('blip');
+          pop(q.d === 0 ? '♥ KOPI PENG ♥' : '+1 KOPI!', [30, 90, 150, 210][q.d], 96, q.d === 0 ? '#ff4f8b' : '#a8682f');
+          if (q.d === 0) { st.excl = t; sfx('surprise'); }
+        }
       }
+      const cx = [34, 94, 154, 214];
+      drawPerson(ANGELA_WORK, cx[0] - 4, 140, { t, bob: true });
+      CW.forEach((p, i) => drawPerson(p, cx[i + 1] - 4, 140, { t, bob: true, wave: t - st.happy[i + 1] < 1.6 }));
+      cx.forEach((c, i) => kopiDesk(c, st.cups[i], t));
+      const atAngela = st.cups[0];
+      drawPerson(st.kopi > 0 ? NIELSEN_SUIT : NIELSEN_SUIT_NOKOPI, st.nx, 156, { t, face: -1, walk: moving, bob: !moving, kopi: st.kopi });
+      if (t - st.excl < 2 && Math.floor((t - st.excl) * 6) % 2 === 0) bmp(EXCL, 24, 64, { K: EYE, W: WHITE, R: '#e23a3a' }, 2);
+      if (st.love > 0) {
+        bmp(LOVEB, 22, 64 + Math.round(Math.sin(t * 4)), { K: EYE, W: WHITE, R: '#ff4f8b' }, 2);
+        bmp(LOVEB, st.nx - 4, 78 + Math.round(Math.sin(t * 4 + 1)), { K: EYE, W: WHITE, R: '#ff4f8b' }, 2);
+        if (Math.random() < dt * 3) floatHeart(rand(24, 60), 96);
+      }
+      if (atAngela && st.love < 0 && Math.random() < dt) floatHeart(rand(24, 56), 96);
       drawParts();
     },
   },
 
-  // 4 ---------------------------------------------------------------- LEVEL 4 (love)
+  // 4 ---------------------------------------------------------------- DOKI DOKI (just the two of them)
   {
-    music: 'lullaby', card: ['LEVEL 4', 'DOKI DOKI'],
+    music: 'lullaby', card: ['AND THEN...', 'DOKI DOKI'], trans: 'hearts',
     lines: [
-      'One starry night by the bay, two hearts went... doki doki.',
+      'Kopi dates turned into dinner dates. Dinner dates turned into starry walks by the bay...',
       { text: 'LOVE LEVEL RISING...', on: (st) => { st.target = 0.55; } },
       { text: 'Then the Cuddle Bears noticed. (The Cuddle Bears ALWAYS notice.)', on: (st) => { st.bears = 1; } },
       { text: '✦ RAINBOW BEAR HUG!!! ✦', on: (st) => { st.beam = true; st.target = 1; sfx('sparkle'); } },
       { text: "LOVE LEVEL: MAX ♥  It's official: Angela & Nielsen!", on: (st) => { st.close = true; st.fw = 0; sfx('jingle'); } },
     ],
-    init(st) { st.meter = 0; st.target = 0.12; st.bears = 0; st.by = 0; st.beam = false; st.close = false; st.ax = 98; st.nx = 150; },
+    init(st) { st.meter = 0; st.target = 0.12; st.bears = 0; st.by = 0; st.beam = false; st.close = false; st.ax = 92; st.nx = 148; },
     draw(t, dt, st) {
       C.drawImage(BG.night, 0, 0);
       for (let i = 0; i < 14; i++) if (Math.floor(t * 3 + i * 1.7) % 4 === 0) R((i * 71 + 13) % W, (i * 29 + 5) % 90, 1, 1, '#ffffff');
@@ -916,16 +1188,10 @@ const scenes = [
       st.meter = lerp(st.meter, st.target, Math.min(1, dt * 1.6));
       st.by = lerp(st.by, st.bears, Math.min(1, dt * 2));
       if (st.close) { st.ax = lerp(st.ax, 108, dt * 2.5); st.nx = lerp(st.nx, 128, dt * 2.5); }
+      else { st.ax = lerp(st.ax, 96 + st.meter * 6, dt); st.nx = lerp(st.nx, 144 - st.meter * 6, dt); }
       const max = st.meter > 0.97;
-
-      drawPerson(DAU_A, 20, 154, { t, ball: true, bob: !max, hop: max, phase: 0 });
-      drawPerson(SON_A, 54, 154, { t, bob: !max, hop: max, phase: 1 });
-      drawPerson(DAU_N, 186, 154, { t, face: -1, bob: !max, hop: max, phase: 2 });
-      drawPerson(SON_N, 218, 154, { t, face: -1, bob: !max, hop: max, phase: 3 });
-      drawPerson(ANGELA, st.ax, 154, { t, bob: true });
-      drawPerson(NIELSEN, st.nx, 154, { t, face: -1, bob: true });
-
-      // bears on clouds
+      drawPerson(ANGELA_WORK, st.ax, 154, { t, bob: true, hop: max, phase: 0 });
+      drawPerson(NIELSEN_SUIT_NOKOPI, st.nx, 154, { t, face: -1, bob: true, hop: max, phase: 0.6 });
       const bx = [8, 58, 156, 206];
       if (st.beam) {
         bx.forEach((x, i) => rainbowBeam(x + 13, -60 + st.by * 78 + 24, 118, 76, t + i * 0.2));
@@ -936,11 +1202,9 @@ const scenes = [
         const y = -60 + st.by * 78 + Math.round(Math.sin(t * 2 + i) * 2);
         if (st.by > 0.02) drawBear(BEARS[i === 1 ? 4 : i], x, y, t, { cloud: true, wave: !st.beam });
       });
-      if (st.meter > 0.08 && Math.random() < dt * (1 + st.meter * 5)) floatHeart(rand(104, 132), 100, pick(['#ff5a9a', '#ff8fbf', '#ffffff']));
+      if (st.meter > 0.08 && Math.random() < dt * (1 + st.meter * 5)) floatHeart(rand(100, 136), 100, pick(['#ff5a9a', '#ff8fbf', '#ffffff']));
       if (st.close) { st.fw -= dt; if (st.fw <= 0) { st.fw = rand(0.4, 0.9); burst(rand(20, 220), rand(10, 50), pick(['#ffe14d', '#ff7aa8', '#8fe3ff', '#c39bff'])); } }
       drawParts();
-
-      // love meter
       const mx = 88, my = 6;
       bmp(HEART7, mx - 10, my, max && Math.floor(t * 6) % 2 ? '#ffffff' : '#ff5a9a');
       R(mx, my, 72, 7, '#ffffff'); R(mx + 1, my + 1, 70, 5, '#2a2050');
@@ -949,11 +1213,11 @@ const scenes = [
     },
   },
 
-  // 5 ---------------------------------------------------------------- LEVEL 5 (wedding)
+  // 5 ---------------------------------------------------------------- THE BIG DAY
   {
-    music: 'wedding', card: ['FINAL LEVEL', 'THE BIG DAY'],
+    music: 'wedding', card: ['★ ★ ★', 'THE BIG DAY'], trans: 'bunny',
     lines: [
-      { text: 'Two little parties joined up into one BIG, happy party of six!', on: () => { congrats.classList.add('show'); sfx('jingle'); } },
+      { text: 'Two families became one BIG, happy family! (Plus Churros, of course.)', on: () => { congrats.classList.add('show'); sfx('jingle'); } },
       { text: 'ACHIEVEMENT UNLOCKED:  ♥ HAPPILY EVER AFTER ♥', on: () => { pop('♥ +1 FAMILY ♥', 116, 84, '#e2466f'); } },
       { text: 'Psst... a letter has arrived for Angela! Tap to open it ✉', on: (st) => { st.env = true; sfx('surprise'); } },
     ],
@@ -963,17 +1227,21 @@ const scenes = [
     draw(t, dt, st) {
       C.drawImage(BG.shophouse, 0, 0);
       if (Math.random() < dt * 14) confetti();
-      drawBear(BEARS[1], 70, 73, t, { s: 1 });   // peeking out of the shutters
+      drawBear(BEARS[1], 70, 73, t, { s: 1 });
       drawBear(BEARS[4], 158, 73, t, { s: 1 });
-      drawBear(BEARS[3], 4, 60 + Math.round(Math.sin(t * 2) * 2), t, { cloud: true, wave: true });
-      drawBear(BEARS[2], 210, 62 + Math.round(Math.sin(t * 2 + 1) * 2), t, { cloud: true, wave: true });
-
+      drawBear(BEARS[3], 6, 56 + Math.round(Math.sin(t * 2) * 2), t, { s: 1, cloud: true, wave: true });
+      drawBear(BEARS[2], 222, 58 + Math.round(Math.sin(t * 2 + 1) * 2), t, { s: 1, cloud: true, wave: true });
+      // extended family in the back row
+      const back = [12, 44, 84, 148, 186, 222];
+      FAMILY.forEach((p, i) => drawPerson(p, back[i], 141, { t, face: i < 3 ? 1 : -1, bob: true, wave: (i === 1 || i === 4) }));
+      // the new family of six (+ Churros)
       drawPerson(DAU_A, 26, 155, { t, ball: true, toss: true, bob: true });
       drawPerson(SON_A, 64, 155, { t, hop: true, phase: 1.3 });
       drawPerson(ANGELA_WED, 106, 155, { t, bob: true });
       drawPerson(NIELSEN_WED, 126, 155, { t, face: -1, bob: true });
       drawPerson(DAU_N, 164, 155, { t, face: -1, hop: true, phase: 2.4 });
       drawPerson(SON_N, 200, 155, { t, face: -1, hop: true, phase: 0.4 });
+      drawBunny(76, 132, t, { hop: true, hopSpeed: 5, hopH: 4, bow: true });
       if (Math.random() < dt * 2.5) floatHeart(rand(100, 132), 104);
       if (st.env) {
         const ey = 66 + Math.round(Math.sin(t * 3) * 2);
@@ -985,11 +1253,45 @@ const scenes = [
   },
 ];
 
+// ------------------------------------------------------------------ cute transitions
+const TRANS = {
+  bunny: { bg: '#ffe3c8', fg: '#ffc79a', motif: ['..X.X..', '..X.X..', '.XXXXX.', '.XXXXX.', '..XXX..'] },
+  whisk: { bg: '#dcf2c8', fg: '#b4e08f', motif: ['.XXX.', 'XXXXX', 'XXXXX', '.XXX.'] },
+  bear: { bg: '#e3d8ff', fg: '#c8b6ff', motif: ['..X..', 'XXXXX', '.XXX.', '.X.X.'] },
+  hearts: { bg: '#ffd6e6', fg: '#ffb3cf', motif: HEART5 },
+};
+function curtain(x0, x1, k) {
+  if (x1 <= x0) return;
+  R(x0, 0, x1 - x0, H, k.bg);
+  for (let j = 0, y = 6; y < H; j++, y += 20) {
+    for (let x = (j % 2) * 12 - 4; x < W + 12; x += 24) {
+      if (x >= x0 && x + 7 <= x1) bmp(k.motif, x, y, k.fg);
+    }
+  }
+}
+function mascot(kind, ex, t) {
+  if (kind === 'bunny') {
+    drawBunny(ex - 40, 98, t, { s: 3, hop: true, hopSpeed: 9, hopH: 7 });
+  } else if (kind === 'whisk') {
+    const y = 40 - Math.round(Math.abs(Math.sin(t * 8)) * 14);
+    bmp(WHISK, ex - 30, y, WHISK_PAL, 4);
+    for (let i = 0; i < 5; i++) R(ex - 40 - i * 9, y + 50 + ((i * 7) % 12), 3, 3, i % 2 ? '#7cc35a' : '#a8dc7a');
+  } else if (kind === 'bear') {
+    const y = 52 + Math.round(Math.sin(t * 6) * 5);
+    for (let k = 0; k < 6; k++) R(ex - 120, y + 10 + k * 3, 100, 3, RAINBOW[k]);
+    drawBear(BEARS[(Math.floor(t) % 5)], ex - 26, y, t, { s: 3, wave: true });
+  } else {
+    const s = 6 + Math.round(Math.sin(t * 10));
+    bmp(HEART7, ex - 7 * s, 80 - 3 * s, '#ff5a9a', s);
+    for (let i = 0; i < 6; i++) bmp(HEART5, ex - 60 - i * 14, 30 + ((i * 37) % 100), '#ffffff');
+  }
+}
+
 // ------------------------------------------------------------------ story controller
 let idx = 0, st = {}, sceneT = 0, line = -1;
 let typing = null; // { text, start, shown }
-let trans = null;  // { phase, t, to }
-let cardTimer = null, cardOpen = false, ended = false, letterOpen = false;
+let trans = null;  // { phase, t, to, kind }
+let cardTimer = null, cardOpen = false, ended = false, letterOpen = false, lastHint = 0;
 
 function enterScene(i) {
   if (scenes[idx] && scenes[idx].exit) scenes[idx].exit();
@@ -1006,7 +1308,7 @@ function beginScene() {
     $('cardName').textContent = s.card[1];
     card.classList.add('show'); cardOpen = true;
     sfx('jingle');
-    cardTimer = setTimeout(closeCard, 1800);
+    cardTimer = setTimeout(closeCard, 1900);
   } else nextLine();
 }
 function closeCard() {
@@ -1018,10 +1320,12 @@ function closeCard() {
 function nextLine() {
   const s = scenes[idx];
   line++;
+  st.wait = null;
   if (line < s.lines.length) {
     let L = s.lines[line];
     if (typeof L === 'string') L = { text: L };
     if (L.on) L.on(st, sceneT);
+    if (L.target) st.wait = { L, n: 0, need: L.taps || 1, done: false };
     typing = { text: L.text, start: performance.now(), shown: -1 };
     dialog.classList.remove('done');
   } else if (s.end) s.end();
@@ -1029,7 +1333,8 @@ function nextLine() {
 }
 function goTo(i) {
   if (trans) return;
-  trans = { phase: 'out', t: 0, to: i };
+  trans = { phase: 'out', t: 0, to: i, kind: scenes[i].trans || 'hearts' };
+  titleOv.classList.remove('show');
 }
 function updateTyping(now) {
   if (!typing) return;
@@ -1038,17 +1343,47 @@ function updateTyping(now) {
     if (n > typing.shown && n % 3 === 0 && n < typing.text.length) sfx('tick');
     typing.shown = n;
     dtext.textContent = typing.text.slice(0, n);
-    if (n >= typing.text.length) { dialog.classList.add('done'); }
+    if (n >= typing.text.length && !st.wait) dialog.classList.add('done');
   }
 }
 const typingDone = () => !typing || typing.shown >= typing.text.length;
 
-function advance() {
+function hitTarget(pos) {
+  if (!pos || !st.wait) return false;
+  const h = scenes[idx].hot(st)[st.wait.L.target];
+  const pad = 9;
+  const inside = (r) => r && pos.x >= r.x - pad && pos.x <= r.x + r.w + pad && pos.y >= r.y - pad && pos.y <= r.y + r.h + pad;
+  return inside(h) || inside(h.alt);
+}
+function tapTarget() {
+  const w = st.wait;
+  w.n++;
+  sfx('blip');
+  if (w.L.onTap) w.L.onTap(st, w.n, sceneT);
+  if (w.n >= w.need) {
+    w.done = true;
+    if (w.L.done) w.L.done(st, sceneT);
+    const myState = st;
+    setTimeout(() => { if (st === myState && st.wait === w) nextLine(); }, w.L.delay || 1300);
+  }
+}
+function advance(pos, viaKey) {
   initAudio();
   if (actx && !song) playSong(scenes[idx].music);
   if (letterOpen || ended || trans) return;
   if (idx === 0) { sfx('blip'); goTo(1); return; }
   if (cardOpen) { closeCard(); return; }
+  if (st.wait) {
+    if (st.wait.done) return;
+    if (viaKey || hitTarget(pos)) { if (!typingDone()) typing.start = -1e9; tapTarget(); return; }
+    if (!typingDone()) { typing.start = -1e9; return; }
+    if (performance.now() - lastHint > 900) {
+      lastHint = performance.now();
+      const h = scenes[idx].hot(st)[st.wait.L.target];
+      pop(`TAP THE ${st.wait.L.label}!`, Math.min(200, Math.max(40, h.x + h.w / 2)), Math.max(16, h.y - 18), '#c2185b');
+    }
+    return;
+  }
   if (!typingDone()) { typing.start = -1e9; return; }
   sfx('blip');
   nextLine();
@@ -1080,17 +1415,22 @@ $('replay').addEventListener('click', (e) => {
 });
 
 // ------------------------------------------------------------------ input
+function canvasPos(e) {
+  const r = screen.getBoundingClientRect();
+  if (e.clientX < r.left || e.clientX > r.right || e.clientY < r.top || e.clientY > r.bottom) return null;
+  return { x: (e.clientX - r.left) / r.width * W, y: (e.clientY - r.top) / r.height * H };
+}
 window.addEventListener('pointerdown', (e) => {
   if (e.button > 0) return;
   if (e.target.closest('button, .letter-wrap')) return;
-  advance();
+  advance(canvasPos(e), false);
 });
 window.addEventListener('keydown', (e) => {
   if (e.key === 'Escape' && letterOpen) { closeLetter(); return; }
   if (letterOpen) return;
   if ([' ', 'Enter', 'ArrowRight'].includes(e.key)) {
     if (e.target.closest && e.target.closest('button')) return;
-    e.preventDefault(); advance();
+    e.preventDefault(); advance(null, true);
   }
 });
 
@@ -1104,23 +1444,33 @@ function frame(now) {
   updateParts(dt);
   scenes[idx].draw(sceneT, dt, st);
 
+  // "tap here" pointer for interactive steps
+  if (st.wait && !st.wait.done && typingDone() && !cardOpen && !trans) {
+    const h = scenes[idx].hot(st)[st.wait.L.target];
+    if (Math.floor(sceneT * 3) % 2) {
+      const c = '#ffffff';
+      R(h.x - 3, h.y - 3, h.w + 6, 1, c); R(h.x - 3, h.y + h.h + 2, h.w + 6, 1, c);
+      R(h.x - 3, h.y - 3, 1, h.h + 6, c); R(h.x + h.w + 2, h.y - 3, 1, h.h + 6, c);
+    }
+    const ay = h.y - 20 - Math.round(Math.abs(Math.sin(sceneT * 5)) * 4);
+    bmp(ARROW, Math.round(h.x + h.w / 2 - 7), ay, { K: EYE, W: '#ffe14d' }, 2);
+  }
+
   if (trans) {
     trans.t += dt;
-    const D = 0.6;
-    let r;
+    const D = 0.9;
+    const p = Math.min(1, trans.t / D);
+    const e = p < 0.5 ? 2 * p * p : 1 - Math.pow(-2 * p + 2, 2) / 2;
+    const edge = -40 + e * (W + 80);
+    const k = TRANS[trans.kind];
     if (trans.phase === 'out') {
-      r = 150 * (1 - trans.t / D);
-      if (trans.t >= D) { enterScene(trans.to); trans = { phase: 'in', t: 0 }; r = 0; }
+      curtain(-10, edge, k);
+      mascot(trans.kind, edge, sceneT);
+      if (p >= 1) { const kind = trans.kind; enterScene(trans.to); trans = { phase: 'in', t: 0, kind }; curtain(-10, W + 10, k); }
     } else {
-      r = 150 * (trans.t / D);
-      if (trans.t >= D) { trans = null; beginScene(); }
-    }
-    if (trans || r < 150) {
-      ctx.fillStyle = '#1a1024';
-      ctx.beginPath();
-      ctx.rect(0, 0, W, H);
-      ctx.arc(W / 2, H / 2 + 10, Math.max(0, r), 0, Math.PI * 2, true);
-      ctx.fill('evenodd');
+      curtain(edge, W + 10, k);
+      mascot(trans.kind, edge, sceneT);
+      if (p >= 1) { trans = null; beginScene(); }
     }
   }
   updateTyping(now);
