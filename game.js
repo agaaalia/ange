@@ -89,7 +89,7 @@ const ANGELA_WED = {
 };
 const NIELSEN = {
   seed: 1.7, bw: 8, torso: 8, legs: 8,
-  hair: 'short', hairC: '#2a2324', glasses: true, glassC: '#3a2a2a',
+  hair: 'spiky', hairC: '#141414', glasses: true, glassStyle: 'horn', glassC: '#5a3418',
   shirtC: '#9cc9f0', collarC: '#ffffff', deco: 'collar', belt: true,
   pantsStyle: 'trousers', pantsC: '#3c4a6b', shoeC: '#5a3a26',
 };
@@ -106,7 +106,7 @@ const DAU_A = { // Angela's girl: sporty netball star
 };
 const DAU_N = { // Nielsen's older bespectacled girl
   seed: 2.2, bw: 6, torso: 6, legs: 5,
-  hair: 'bob', hairC: '#231b1c', glasses: true, glassC: '#7a3fb0',
+  hair: 'long', hairC: '#231b1c', hairHi: '#3a2c2e', glasses: true, glassStyle: 'round', glassC: '#7a3fb0',
   shirtC: '#b99cf2', deco: 'cardigan', pantsStyle: 'skirt', pantsC: '#5d4aa3', shoeC: '#3a2a40', prop: 'book',
 };
 const SON_N = { // Nielsen's boy
@@ -355,9 +355,17 @@ function drawPerson(p, x, feetY, o = {}) {
   }
   if (p.glasses) {
     const g = p.glassC;
-    R(-4, 3, 4, 1, g); R(-4, 6, 4, 1, g); R(-4, 3, 1, 4, g); R(-1, 3, 1, 4, g);
-    R(2, 3, 4, 1, g); R(2, 6, 4, 1, g); R(2, 3, 1, 4, g); R(5, 3, 1, 4, g);
-    R(0, 4, 2, 1, g);
+    if (p.glassStyle === 'round') {
+      [-3, 2].forEach((gx) => { R(gx + 1, 3, 2, 1, g); R(gx + 1, 6, 2, 1, g); R(gx, 4, 1, 2, g); R(gx + 3, 4, 1, 2, g); });
+      R(1, 4, 1, 1, g);
+    } else if (p.glassStyle === 'horn') {
+      [-3, 2].forEach((gx) => { R(gx, 3, 4, 1, g); R(gx, 4, 1, 2, g); R(gx + 3, 4, 1, 2, g); R(gx + 1, 6, 2, 1, '#8a6040'); });
+      R(1, 4, 1, 1, g);
+    } else {
+      R(-4, 3, 4, 1, g); R(-4, 6, 4, 1, g); R(-4, 3, 1, 4, g); R(-1, 3, 1, 4, g);
+      R(2, 3, 4, 1, g); R(2, 6, 4, 1, g); R(2, 3, 1, 4, g); R(5, 3, 1, 4, g);
+      R(0, 4, 2, 1, g);
+    }
     if (((t * 0.9 + p.seed) % 2.6) < 0.22 || o.glint) { R(4, 4, 1, 1, WHITE); R(-2, 4, 1, 1, WHITE); }
   }
   if (p.stache) { R(-1, 7, 4, 1, hc); R(0, 8, 2, 1, MOUTH); }
@@ -405,7 +413,7 @@ const SYM = {
 };
 const BEARS = [
   { c: '#ffb3d1', d: '#ff7aa8', sym: 'heart' },
-  { c: '#a8e6c1', d: '#5fbf8a', sym: 'matcha' },
+  { c: '#ffc2dc', d: '#ff8fbf', sym: 'matcha' },
   { c: '#a9d6ff', d: '#6aa9e8', sym: 'rainbow' },
   { c: '#d7c1ff', d: '#a68be6', sym: 'orchid' },
   { c: '#ffe58a', d: '#f2b84b', sym: 'star' },
